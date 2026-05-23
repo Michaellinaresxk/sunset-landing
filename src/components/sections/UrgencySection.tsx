@@ -1,13 +1,19 @@
 'use client';
 
-import { Zap, TrendingUp } from 'lucide-react';
-import { CONTACT_EMAIL, CONTACT_SUBJECT, CONTACT_BODY } from '@/src/constants';
+import { Zap, Mail } from 'lucide-react';
+import { CONTACT_EMAIL } from '@/src/constants';
 import SectionReveal from '@/src/components/ui/SectionReveal';
 import GradientButton from '@/src/components/ui/GradientButton';
 
+const SUBJECT = encodeURIComponent('Horseback Riding Inquiry');
+const BODY = encodeURIComponent(
+  "Hello! I would like to know more about the horseback riding experience in Punta Cana.\n\nDate I'm interested in:\nNumber of guests:\nHotel name:",
+);
+const MAILTO_URL = `mailto:${CONTACT_EMAIL}?subject=${SUBJECT}&body=${BODY}`;
+
 export default function UrgencySection() {
   const handleContactClick = () => {
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${CONTACT_SUBJECT}&body=${CONTACT_BODY}`;
+    window.open(MAILTO_URL, '_blank');
   };
 
   return (
@@ -30,12 +36,11 @@ export default function UrgencySection() {
                 Need Booking Assistance?
               </h3>
               <p className='text-white/60 font-light mb-8 text-base md:text-lg'>
-                Email us directly—we&apos;ll contact you and help plan your
-                perfect sunset ride.
+                Email us directly — we&apos;ll help plan your perfect ride.
               </p>
 
-              <GradientButton onClick={handleContactClick} icon={TrendingUp}>
-                Get Assistance
+              <GradientButton onClick={handleContactClick} icon={Mail}>
+                Send us an Email
               </GradientButton>
             </div>
           </div>
