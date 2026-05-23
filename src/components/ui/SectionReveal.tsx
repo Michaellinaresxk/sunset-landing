@@ -1,13 +1,16 @@
 'use client';
 
-import { useIntersectionObserver } from '@/hooks';
+import { useIntersectionObserver } from '@/src/hooks';
 
 interface SectionRevealProps {
   children: (isVisible: boolean) => React.ReactNode;
   className?: string;
 }
 
-export default function SectionReveal({ children, className = '' }: SectionRevealProps) {
+export default function SectionReveal({
+  children,
+  className = '',
+}: SectionRevealProps) {
   const { elementRef, isVisible } = useIntersectionObserver();
 
   return (

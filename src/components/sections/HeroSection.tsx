@@ -1,10 +1,10 @@
 'use client';
 
 import { Clock, Users, Check, ChevronDown } from 'lucide-react';
-import { useScrollReveal } from '@/hooks';
-import { HERO_IMAGE } from '@/constants';
-import GradientButton from '@/components/ui/GradientButton';
-import { SectionProps } from '@/types';
+import { useScrollReveal } from '@/src/hooks';
+import { HERO_IMAGE } from '@/src/constants';
+import GradientButton from '@/src/components/ui/GradientButton';
+import { SectionProps } from '@/src/types';
 
 const HERO_FEATURES = [
   { label: '3.5 Hours', icon: Clock },
@@ -19,8 +19,15 @@ export default function HeroSection({ onBookClick }: SectionProps) {
   return (
     <div className='relative h-screen min-h-[900px] overflow-hidden'>
       {/* Parallax Background */}
-      <div className='absolute inset-0' style={{ transform: `translateY(${parallax}px)` }}>
-        <img src={HERO_IMAGE} alt='Sunset horseback riding' className='w-full h-full object-cover scale-110' />
+      <div
+        className='absolute inset-0'
+        style={{ transform: `translateY(${parallax}px)` }}
+      >
+        <img
+          src={HERO_IMAGE}
+          alt='Sunset horseback riding'
+          className='w-full h-full object-cover scale-110'
+        />
         <div className='absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/20 to-zinc-950/90' />
         <div className='absolute inset-0 bg-gradient-to-r from-zinc-950/60 via-transparent to-transparent' />
       </div>
@@ -46,7 +53,8 @@ export default function HeroSection({ onBookClick }: SectionProps) {
             </h1>
 
             <p className='text-lg md:text-2xl lg:text-3xl text-white/60 font-light max-w-2xl leading-relaxed'>
-              Where paradise meets perfection, captured in nature&apos;s most spectacular light
+              Where paradise meets perfection, captured in nature&apos;s most
+              spectacular light
             </p>
 
             {/* CTA */}
@@ -63,7 +71,9 @@ export default function HeroSection({ onBookClick }: SectionProps) {
                 return (
                   <div key={i} className='flex items-center gap-3'>
                     <Icon className='w-4 h-4 md:w-5 md:h-5 text-amber-300' />
-                    <span className='text-xs md:text-sm text-white/50 font-light'>{item.label}</span>
+                    <span className='text-xs md:text-sm text-white/50 font-light'>
+                      {item.label}
+                    </span>
                   </div>
                 );
               })}

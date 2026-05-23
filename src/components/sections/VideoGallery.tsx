@@ -2,10 +2,10 @@
 
 import { useState, useRef } from 'react';
 import { Play } from 'lucide-react';
-import { GALLERY_VIDEOS, GALLERY_IMAGES } from '@/constants';
-import { MediaItem } from '@/types';
-import SectionReveal, { RevealItem } from '@/components/ui/SectionReveal';
-import VideoPlayer from '@/components/media/VideoPlayer';
+import { GALLERY_VIDEOS, GALLERY_IMAGES } from '@/src/constants';
+import { MediaItem } from '@/src/types';
+import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
+import VideoPlayer from '@/src/components/media/VideoPlayer';
 
 // Shared thumbnail overlay for both mobile and desktop
 function VideoThumbnail({
@@ -20,8 +20,15 @@ function VideoThumbnail({
   children?: React.ReactNode;
 }) {
   return (
-    <div className={`relative overflow-hidden cursor-pointer group ${className}`} onClick={onClick}>
-      <img src={video.thumbnail} alt={video.title} className='w-full h-full object-cover' />
+    <div
+      className={`relative overflow-hidden cursor-pointer group ${className}`}
+      onClick={onClick}
+    >
+      <img
+        src={video.thumbnail}
+        alt={video.title}
+        className='w-full h-full object-cover'
+      />
       <div className='absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent' />
       {children}
     </div>
@@ -40,9 +47,16 @@ export default function VideoGallery() {
 
           <div className='max-w-7xl mx-auto px-4 md:px-8 relative z-10'>
             {/* Header */}
-            <RevealItem isVisible={isVisible} className='text-center mb-16 md:mb-24'>
-              <h2 className='text-4xl md:text-7xl font-extralight text-white mb-6 tracking-tighter'>Experience</h2>
-              <p className='text-base md:text-xl text-white/40 font-light'>Immerse yourself in the golden hour magic</p>
+            <RevealItem
+              isVisible={isVisible}
+              className='text-center mb-16 md:mb-24'
+            >
+              <h2 className='text-4xl md:text-7xl font-extralight text-white mb-6 tracking-tighter'>
+                Experience
+              </h2>
+              <p className='text-base md:text-xl text-white/40 font-light'>
+                Immerse yourself in the golden hour magic
+              </p>
             </RevealItem>
 
             {/* Mobile horizontal scroll */}
@@ -53,7 +67,10 @@ export default function VideoGallery() {
                 style={{ scrollBehavior: 'smooth' }}
               >
                 {GALLERY_VIDEOS.map((video, i) => (
-                  <div key={video.id} className='flex-shrink-0 w-[200px] snap-start'>
+                  <div
+                    key={video.id}
+                    className='flex-shrink-0 w-[200px] snap-start'
+                  >
                     <VideoThumbnail
                       video={video}
                       onClick={() => setSelectedVideo(video)}
@@ -65,11 +82,15 @@ export default function VideoGallery() {
                         </div>
                       </div>
                       <div className='absolute bottom-0 left-0 right-0 p-3'>
-                        <h3 className='text-sm font-light text-white'>{video.title}</h3>
+                        <h3 className='text-sm font-light text-white'>
+                          {video.title}
+                        </h3>
                       </div>
                       {i === 0 && (
                         <div className='absolute top-3 right-3 bg-amber-300/20 backdrop-blur-md px-2.5 py-1 rounded-full animate-pulse'>
-                          <span className='text-xs text-amber-200 font-light'>Scroll →</span>
+                          <span className='text-xs text-amber-200 font-light'>
+                            Scroll →
+                          </span>
                         </div>
                       )}
                     </VideoThumbnail>
@@ -78,7 +99,10 @@ export default function VideoGallery() {
               </div>
               <div className='flex justify-center gap-2 mt-4'>
                 {GALLERY_VIDEOS.map((_, i) => (
-                  <div key={i} className='w-1.5 h-1.5 rounded-full bg-white/30' />
+                  <div
+                    key={i}
+                    className='w-1.5 h-1.5 rounded-full bg-white/30'
+                  />
                 ))}
               </div>
             </div>
@@ -86,7 +110,11 @@ export default function VideoGallery() {
             {/* Desktop grid */}
             <div className='hidden md:grid md:grid-cols-3 gap-6 md:gap-8 mb-12'>
               {GALLERY_VIDEOS.map((video, i) => (
-                <RevealItem key={video.id} isVisible={isVisible} delay={i * 200}>
+                <RevealItem
+                  key={video.id}
+                  isVisible={isVisible}
+                  delay={i * 200}
+                >
                   <VideoThumbnail
                     video={video}
                     onClick={() => setSelectedVideo(video)}
@@ -99,7 +127,9 @@ export default function VideoGallery() {
                       </div>
                     </div>
                     <div className='absolute bottom-0 left-0 right-0 p-6 md:p-8 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500'>
-                      <h3 className='text-xl md:text-2xl font-light text-white'>{video.title}</h3>
+                      <h3 className='text-xl md:text-2xl font-light text-white'>
+                        {video.title}
+                      </h3>
                     </div>
                   </VideoThumbnail>
                 </RevealItem>
@@ -109,12 +139,22 @@ export default function VideoGallery() {
             {/* Image gallery */}
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8'>
               {GALLERY_IMAGES.map((image, i) => (
-                <RevealItem key={image.id} isVisible={isVisible} delay={(i + 3) * 200}>
+                <RevealItem
+                  key={image.id}
+                  isVisible={isVisible}
+                  delay={(i + 3) * 200}
+                >
                   <div className='group relative aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden transition-all duration-700 hover:scale-105'>
-                    <img src={image.src} alt={image.title} className='w-full h-full object-cover' />
+                    <img
+                      src={image.src}
+                      alt={image.title}
+                      className='w-full h-full object-cover'
+                    />
                     <div className='absolute inset-0 bg-gradient-to-t from-zinc-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700' />
                     <div className='absolute bottom-0 left-0 right-0 p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500'>
-                      <h3 className='text-base md:text-xl font-light text-white'>{image.title}</h3>
+                      <h3 className='text-base md:text-xl font-light text-white'>
+                        {image.title}
+                      </h3>
                     </div>
                   </div>
                 </RevealItem>

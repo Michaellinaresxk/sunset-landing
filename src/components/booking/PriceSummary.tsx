@@ -1,7 +1,7 @@
 'use client';
 
-import { PRICING } from '@/constants';
-import { PricingBreakdown, BookingFormData } from '@/types';
+import { PRICING } from '@/src/constants';
+import { PricingBreakdown, BookingFormData } from '@/src/types';
 
 interface PriceSummaryProps {
   formData: BookingFormData;
@@ -11,7 +11,7 @@ interface PriceSummaryProps {
 export default function PriceSummary({ formData, pricing }: PriceSummaryProps) {
   return (
     <div className='space-y-1'>
-      { formData.adults > 0 && (
+      {formData.adults > 0 && (
         <div className='flex justify-between text-sm text-white/60'>
           <span>
             {formData.adults} Adult{formData.adults > 1 ? 's' : ''} × $

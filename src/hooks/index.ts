@@ -23,7 +23,7 @@ export const useIntersectionObserver = (options = {}) => {
       ([entry]) => {
         if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.1, ...options }
+      { threshold: 0.1, ...options },
     );
 
     if (elementRef.current) observer.observe(elementRef.current);

@@ -1,8 +1,11 @@
-import { PRICING } from '@/constants';
-import { BookingFormData, PricingBreakdown } from '@/types';
+import { PRICING } from '@/src/constants';
+import { BookingFormData, PricingBreakdown } from '@/src/types';
 
-export const calculatePricing = (formData: BookingFormData): PricingBreakdown => {
-  const totalParticipants = formData.adults + formData.children + formData.infants;
+export const calculatePricing = (
+  formData: BookingFormData,
+): PricingBreakdown => {
+  const totalParticipants =
+    formData.adults + formData.children + formData.infants;
 
   const basePrice =
     formData.adults * PRICING.adult +

@@ -1,7 +1,7 @@
 'use client';
 
-import { STATS } from '@/constants';
-import SectionReveal, { RevealItem } from '@/components/ui/SectionReveal';
+import { STATS } from '@/src/constants';
+import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 
 export default function StatsSection() {
   return (
@@ -14,10 +14,19 @@ export default function StatsSection() {
               {STATS.map((stat, i) => {
                 const Icon = stat.icon;
                 return (
-                  <RevealItem key={i} isVisible={isVisible} delay={i * 100} className='text-center'>
+                  <RevealItem
+                    key={i}
+                    isVisible={isVisible}
+                    delay={i * 100}
+                    className='text-center'
+                  >
                     <Icon className='w-8 h-8 md:w-10 md:h-10 text-amber-300 mx-auto mb-4' />
-                    <div className='text-4xl md:text-6xl font-light text-white mb-2'>{stat.number}</div>
-                    <div className='text-sm md:text-base text-white/40 font-light'>{stat.label}</div>
+                    <div className='text-4xl md:text-6xl font-light text-white mb-2'>
+                      {stat.number}
+                    </div>
+                    <div className='text-sm md:text-base text-white/40 font-light'>
+                      {stat.label}
+                    </div>
                   </RevealItem>
                 );
               })}
