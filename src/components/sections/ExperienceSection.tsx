@@ -48,7 +48,7 @@ export default function ExperienceSection() {
             </div>
 
             {/* Desktop */}
-            <div className='hidden lg:grid lg:grid-cols-5 gap-6'>
+            <div className='hidden lg:grid lg:grid-cols-4 gap-6'>
               {EXPERIENCE_STEPS.map((exp, i) => (
                 <RevealItem key={i} isVisible={isVisible} delay={i * 150}>
                   <div className='bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-xl transition-all duration-1000 hover:scale-105 hover:bg-white/15 hover:shadow-2xl hover:shadow-amber-500/30'>

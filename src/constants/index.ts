@@ -1,12 +1,25 @@
 import { Heart, Star, Award, Users } from 'lucide-react';
-import { MediaItem, StatItem, ExperienceStep } from '@/src/types';
+import {
+  MediaItem,
+  StatItem,
+  ExperienceStep,
+  ExperienceType,
+} from '@/src/types';
 
 // ==================== PRICING ====================
+
 export const PRICING = {
-  adult: 75,
-  child: 60,
-  infant: 0,
-  processingFeeRate: 5, // 5%
+  classic: {
+    adult: 65,
+    child: 50,
+    label: 'Classic Ride',
+  },
+  sunset: {
+    adult: 75,
+    child: 60,
+    label: 'Sunset Experience',
+  },
+  processingFeeRate: 5,
 } as const;
 
 // ==================== SCHEDULE ====================
@@ -19,15 +32,22 @@ export const SCHEDULE = {
 } as const;
 
 // ==================== TIME SLOTS ====================
-export const TIME_SLOTS = Array.from({ length: 9 }, (_, i) => {
-  const hour = 8 + i; // 8 AM → 2 PM
-  const hour12 = hour > 12 ? hour - 12 : hour;
-  const ampm = hour >= 12 ? 'PM' : 'AM';
-  return {
-    value: `${hour}:00`,
-    label: `${hour12}:00 ${ampm}`,
-  };
-});
+export const TIME_SLOTS: Record<
+  ExperienceType,
+  { value: string; label: string }[]
+> = {
+  classic: Array.from({ length: 7 }, (_, i) => {
+    const hour = 8 + i;
+    const hour12 = hour > 12 ? hour - 12 : hour;
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    return { value: `${hour}:00`, label: `${hour12}:00 ${ampm}` };
+  }),
+  sunset: [
+    { value: '16:00', label: '4:00 PM' },
+    { value: '16:30', label: '4:30 PM' },
+    { value: '17:00', label: '5:00 PM' },
+  ],
+};
 
 // ==================== GALLERY ====================
 export const GALLERY_VIDEOS: MediaItem[] = [
@@ -112,7 +132,7 @@ export const PICKUP_LOCATIONS = [
 // ==================== STATS ====================
 export const STATS: StatItem[] = [
   { number: '500+', label: 'Happy Guests', icon: Heart },
-  { number: '4.8', label: 'Perfect Rating', icon: Star },
+  { number: '4.8', label: 'Rating', icon: Star },
   { number: '100%', label: 'Satisfaction', icon: Award },
   { number: '25+', label: 'Group Size', icon: Users },
 ];
@@ -138,11 +158,6 @@ export const EXPERIENCE_STEPS: ExperienceStep[] = [
     number: '04',
     title: 'Serenity',
     desc: 'Pause at the shore as waves meet hooves',
-  },
-  {
-    number: '05',
-    title: 'Reflection',
-    desc: 'Treasured moments under painted skies',
   },
 ];
 
