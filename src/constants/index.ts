@@ -59,13 +59,32 @@ export const GALLERY_IMAGES: MediaItem[] = [
   {
     id: 5,
     type: 'image',
+    src: 'https://res.cloudinary.com/ddg92xar5/image/upload/v1755946813/Imagen_de_WhatsApp_2024-06-03_a_las_15.47.17_45e97ed7_uoutrp.jpg',
+    title: 'Beach Sunset',
+  },
+  {
+    id: 8,
+    type: 'image',
     src: 'https://res.cloudinary.com/ddg92xar5/image/upload/v1755946864/image00002_krjl52.jpg',
+    title: 'Beach Sunset',
+  },
+  {
+    id: 7,
+    type: 'image',
+    src: 'https://puntacanaexcursions.online/wp-content/uploads/2024/08/image00011-1536x1017.jpeg',
     title: 'Beach Sunset',
   },
   {
     id: 6,
     type: 'image',
     src: 'https://puntacanaexcursions.online/wp-content/uploads/2024/07/image00014-scaled.jpeg',
+    title: 'Paradise View',
+  },
+
+  {
+    id: 3,
+    type: 'image',
+    src: 'https://res.cloudinary.com/ddg92xar5/image/upload/v1755946814/Imagen_de_WhatsApp_2024-06-03_a_las_15.47.17_f9b60a74_l7xtfu.jpg',
     title: 'Paradise View',
   },
 ];

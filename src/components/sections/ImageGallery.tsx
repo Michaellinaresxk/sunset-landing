@@ -12,19 +12,6 @@ export default function ImageGallery() {
           <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.06),transparent_50%)]' />
 
           <div className='max-w-7xl mx-auto px-4 md:px-8 relative z-10'>
-            {/* Header */}
-            <RevealItem
-              isVisible={isVisible}
-              className='text-center mb-16 md:mb-24'
-            >
-              <h2 className='text-4xl md:text-7xl font-extralight text-zinc-900 mb-6 tracking-tighter'>
-                Experience
-              </h2>
-              <p className='text-base md:text-xl text-zinc-400 font-light'>
-                Immerse yourself in the golden hour magic
-              </p>
-            </RevealItem>
-
             {/* Image gallery */}
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8'>
               {GALLERY_IMAGES.map((image, i) => (
