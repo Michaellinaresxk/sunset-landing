@@ -10,6 +10,7 @@ export interface MediaItem {
 // ==================== BOOKING ====================
 export interface BookingFormData {
   date: string;
+  timeSlot: string;
   adults: number;
   children: number;
   infants: number;

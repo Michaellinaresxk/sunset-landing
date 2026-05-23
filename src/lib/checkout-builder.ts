@@ -36,6 +36,7 @@ export const buildLineItems = (
 
 export const buildCheckoutMetadata = (formData: BookingFormData) => ({
   bookingDate: formData.date,
+  pickupTime: formData.timeSlot,
   adults: String(formData.adults),
   children: String(formData.children),
   infants: String(formData.infants),
