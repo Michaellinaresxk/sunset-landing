@@ -13,7 +13,7 @@ const MAILTO_URL = `mailto:${CONTACT_EMAIL}?subject=${SUBJECT}&body=${BODY}`;
 
 export default function UrgencySection() {
   const handleContactClick = () => {
-    window.open(MAILTO_URL, '_blank');
+    window.location.href = MAILTO_URL;
   };
 
   return (
