@@ -1,4 +1,3 @@
-// BookingModal.tsx
 'use client';
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
@@ -16,8 +15,10 @@ import {
   Check,
   CheckCircle,
   ChevronDown,
+  Sun,
+  Sunrise,
 } from 'lucide-react';
-import { BookingFormData, FormErrors } from '@/src/types';
+import { BookingFormData, FormErrors, ExperienceType } from '@/src/types';
 import { PRICING, TIME_SLOTS } from '@/src/constants';
 import { calculatePricing } from '@/src/utils/pricing';
 import ParticipantCounter from '@/src/components/ui/ParticipantCounter';
@@ -35,12 +36,38 @@ const MIN_GUESTS_FOR_PROMO = 2;
 
 const getMinBookingDate = (): string => new Date().toISOString().split('T')[0];
 
+const EXPERIENCE_OPTIONS: {
+  type: ExperienceType;
+  icon: React.ElementType;
+  title: string;
+  subtitle: string;
+  price: number;
+  badge?: string;
+}[] = [
+  {
+    type: 'classic',
+    icon: Sunrise,
+    title: 'Classic Ride',
+    subtitle: 'Flexible hours · Beach & trail',
+    price: PRICING.classic.adult,
+  },
+  {
+    type: 'sunset',
+    icon: Sun,
+    title: 'Sunset Experience',
+    subtitle: 'Golden hour · Premium',
+    price: PRICING.sunset.adult,
+    badge: 'Popular',
+  },
+];
+
 export default function BookingModal({
   isOpen,
   onClose,
   promoApplied = false,
 }: BookingModalProps) {
   const [formData, setFormData] = useState<BookingFormData>({
+    experience: 'sunset',
     date: '',
     timeSlot: '',
     adults: 1,
@@ -52,7 +79,6 @@ export default function BookingModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTimeSlotOpen, setIsTimeSlotOpen] = useState(false);
 
-  // When promo is applied, ensure at least 2 adults
   useEffect(() => {
     if (promoApplied && formData.adults < MIN_GUESTS_FOR_PROMO) {
       setFormData((prev) => ({ ...prev, adults: MIN_GUESTS_FOR_PROMO }));
@@ -60,6 +86,8 @@ export default function BookingModal({
   }, [promoApplied]);
 
   const pricing = useMemo(() => calculatePricing(formData), [formData]);
+  const tier = PRICING[formData.experience];
+  const availableSlots = TIME_SLOTS[formData.experience];
 
   const totalGuests = formData.adults + formData.children;
   const isPromoEligible = promoApplied && totalGuests >= MIN_GUESTS_FOR_PROMO;
@@ -77,6 +105,15 @@ export default function BookingModal({
     },
     [],
   );
+
+  const handleExperienceChange = useCallback((type: ExperienceType) => {
+    setFormData((prev) => ({
+      ...prev,
+      experience: type,
+      timeSlot: '', // Reset — different slots per tier
+    }));
+    setIsTimeSlotOpen(false);
+  }, []);
 
   const validateForm = (): FormErrors => {
     const newErrors: FormErrors = {};
@@ -132,311 +169,373 @@ export default function BookingModal({
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 bg-black/98 z-50 flex items-center justify-center p-4 backdrop-blur-2xl animate-fadeIn overflow-y-auto'>
-      <div className='bg-zinc-900 rounded-3xl max-w-2xl w-full border border-white/10 my-8'>
-        {/* Header */}
-        <div className='bg-gradient-to-r from-amber-500 to-orange-500 px-6 md:px-8 py-6 rounded-t-3xl'>
-          <div className='flex justify-between items-start'>
-            <div>
-              <h3 className='text-2xl md:text-3xl font-light text-white mb-2 tracking-tight'>
-                Book Your Experience
-              </h3>
-              <p className='text-amber-50 text-sm font-light'>
-                Sunset Horseback Riding — From ${PRICING.adult}/person
-              </p>
+    <div className='fixed inset-0 bg-black/98 z-50 overflow-y-auto backdrop-blur-2xl animate-fadeIn'>
+      <div className='min-h-full flex items-center justify-center p-4'>
+        <div className='bg-zinc-900 rounded-3xl max-w-2xl w-full border border-white/10 my-8'>
+          {/* Header */}
+          <div className='bg-gradient-to-r from-amber-500 to-orange-500 px-6 md:px-8 py-6 rounded-t-3xl'>
+            <div className='flex justify-between items-start'>
+              <div>
+                <h3 className='text-2xl md:text-3xl font-light text-white mb-2 tracking-tight'>
+                  Book Your Experience
+                </h3>
+                <p className='text-amber-50 text-sm font-light'>
+                  Horseback Riding — Punta Cana
+                </p>
+              </div>
+              <button
+                onClick={onClose}
+                className='text-white/80 hover:text-white transition-colors'
+              >
+                <X className='w-6 h-6' />
+              </button>
             </div>
-            <button
-              onClick={onClose}
-              className='text-white/80 hover:text-white transition-colors'
-            >
-              <X className='w-6 h-6' />
-            </button>
           </div>
-        </div>
 
-        <div className='p-6 md:p-8 space-y-6'>
-          {/* Promo Banner */}
-          {promoApplied && (
-            <div
-              className={`rounded-xl p-4 border transition-all duration-500 ${
-                isPromoEligible
-                  ? 'bg-emerald-500/10 border-emerald-500/20'
-                  : 'bg-amber-500/10 border-amber-500/20'
-              }`}
-            >
-              <div className='flex items-center gap-3'>
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    isPromoEligible ? 'bg-emerald-500/20' : 'bg-amber-500/20'
-                  }`}
-                >
-                  {isPromoEligible ? (
-                    <Check className='w-5 h-5 text-emerald-400' />
-                  ) : (
-                    <Truck className='w-5 h-5 text-amber-400' />
-                  )}
-                </div>
-                <div className='flex-1 min-w-0'>
+          <div className='p-6 md:p-8 space-y-6'>
+            {/* Experience Selector */}
+            <div>
+              <label className='text-sm font-medium text-white/70 mb-3 block'>
+                Choose Your Experience
+              </label>
+              <div className='grid grid-cols-2 gap-3'>
+                {EXPERIENCE_OPTIONS.map((opt) => {
+                  const Icon = opt.icon;
+                  const isSelected = formData.experience === opt.type;
+                  return (
+                    <button
+                      key={opt.type}
+                      type='button'
+                      onClick={() => handleExperienceChange(opt.type)}
+                      className={`relative text-left p-4 rounded-xl border-2 transition-all duration-300 ${
+                        isSelected
+                          ? 'border-amber-500/60 bg-amber-500/10'
+                          : 'border-white/10 bg-white/[0.03] hover:border-white/20'
+                      }`}
+                    >
+                      {opt.badge && (
+                        <span className='absolute -top-2.5 right-3 px-2 py-0.5 bg-amber-500 text-[10px] font-semibold text-white rounded-full'>
+                          {opt.badge}
+                        </span>
+                      )}
+                      <div className='flex items-center gap-2 mb-2'>
+                        <Icon
+                          className={`w-4 h-4 ${
+                            isSelected ? 'text-amber-400' : 'text-white/40'
+                          }`}
+                        />
+                        <span
+                          className={`text-sm font-medium ${
+                            isSelected ? 'text-white' : 'text-white/60'
+                          }`}
+                        >
+                          {opt.title}
+                        </span>
+                      </div>
+                      <p className='text-[11px] text-white/40 leading-snug mb-2'>
+                        {opt.subtitle}
+                      </p>
+                      <p
+                        className={`text-lg font-light ${
+                          isSelected ? 'text-amber-300' : 'text-white/50'
+                        }`}
+                      >
+                        ${opt.price}
+                        <span className='text-[11px] text-white/30 ml-1'>
+                          /person
+                        </span>
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Promo Banner */}
+            {promoApplied && (
+              <div
+                className={`rounded-xl p-4 border transition-all duration-500 ${
+                  isPromoEligible
+                    ? 'bg-emerald-500/10 border-emerald-500/20'
+                    : 'bg-amber-500/10 border-amber-500/20'
+                }`}
+              >
+                <div className='flex items-center gap-3'>
                   <div
-                    className={`text-sm font-medium ${
-                      isPromoEligible ? 'text-emerald-300' : 'text-amber-300'
+                    className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      isPromoEligible ? 'bg-emerald-500/20' : 'bg-amber-500/20'
                     }`}
                   >
-                    {isPromoEligible
-                      ? 'Free Transport Applied!'
-                      : 'Free Transport — Add 1 more guest'}
+                    {isPromoEligible ? (
+                      <Check className='w-5 h-5 text-emerald-400' />
+                    ) : (
+                      <Truck className='w-5 h-5 text-amber-400' />
+                    )}
                   </div>
-                  <div className='text-xs text-white/40 mt-0.5'>
-                    {isPromoEligible
-                      ? `You're saving $${TRANSPORT_VALUE} on pickup transport`
-                      : `Book ${MIN_GUESTS_FOR_PROMO}+ guests to unlock free pickup transport`}
+                  <div className='flex-1 min-w-0'>
+                    <div
+                      className={`text-sm font-medium ${
+                        isPromoEligible ? 'text-emerald-300' : 'text-amber-300'
+                      }`}
+                    >
+                      {isPromoEligible
+                        ? 'Free Transport Applied!'
+                        : 'Free Transport — Add 1 more guest'}
+                    </div>
+                    <div className='text-xs text-white/40 mt-0.5'>
+                      {isPromoEligible
+                        ? `You're saving $${TRANSPORT_VALUE} on pickup transport`
+                        : `Book ${MIN_GUESTS_FOR_PROMO}+ guests to unlock free pickup transport`}
+                    </div>
                   </div>
+                  {isPromoEligible && (
+                    <div className='text-sm font-medium text-emerald-400 flex-shrink-0'>
+                      −${TRANSPORT_VALUE}
+                    </div>
+                  )}
                 </div>
-                {isPromoEligible && (
-                  <div className='text-sm font-medium text-emerald-400 flex-shrink-0'>
-                    −${TRANSPORT_VALUE}
+              </div>
+            )}
+
+            {/* Date */}
+            <div>
+              <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
+                <Calendar className='w-4 h-4 mr-2 text-amber-400' />
+                Select Date *
+              </label>
+              <input
+                type='date'
+                value={formData.date}
+                onChange={(e) => updateField('date', e.target.value)}
+                onClick={(e) => e.currentTarget.showPicker()}
+                min={getMinBookingDate()}
+                className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${
+                  errors.date ? 'border-red-500' : 'border-white/10'
+                } text-white focus:outline-none focus:border-amber-300/50 transition-colors`}
+              />
+              {errors.date && (
+                <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
+                  <AlertTriangle className='w-3 h-3' />
+                  {errors.date}
+                </p>
+              )}
+            </div>
+
+            {/* Time Slot Picker */}
+            <div>
+              <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
+                <Clock className='w-4 h-4 mr-2 text-amber-400' />
+                Pickup Time *
+              </label>
+              <div
+                className={`border rounded-xl overflow-hidden ${
+                  errors.timeSlot ? 'border-red-500' : 'border-white/10'
+                }`}
+              >
+                <button
+                  type='button'
+                  onClick={() => setIsTimeSlotOpen(!isTimeSlotOpen)}
+                  className='w-full px-4 py-3 bg-white/5 hover:bg-white/[0.08] transition flex items-center justify-between'
+                >
+                  <div className='text-left'>
+                    <div className='text-sm text-white'>
+                      {availableSlots.find((s) => s.value === formData.timeSlot)
+                        ?.label ?? 'Select pickup time'}
+                    </div>
+                    <div className='text-xs text-white/40 mt-0.5'>
+                      {formData.experience === 'sunset'
+                        ? 'Golden hour departure'
+                        : 'Choose your preferred time'}
+                    </div>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-white/40 transition-transform duration-300 ${
+                      isTimeSlotOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {isTimeSlotOpen && (
+                  <div className='p-3 border-t border-white/5'>
+                    <div className='grid grid-cols-3 sm:grid-cols-4 gap-2'>
+                      {availableSlots.map((slot) => (
+                        <button
+                          key={slot.value}
+                          type='button'
+                          onClick={() => {
+                            updateField('timeSlot', slot.value);
+                            setIsTimeSlotOpen(false);
+                          }}
+                          className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
+                            formData.timeSlot === slot.value
+                              ? 'border-amber-500/50 bg-amber-500/15 text-amber-300'
+                              : 'border-white/10 bg-white/5 text-white/60 hover:border-amber-500/30 hover:text-white/80'
+                          }`}
+                        >
+                          <div className='flex items-center justify-center gap-1.5'>
+                            {formData.timeSlot === slot.value && (
+                              <CheckCircle className='w-3.5 h-3.5' />
+                            )}
+                            {slot.label}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
+              {errors.timeSlot && (
+                <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
+                  <AlertTriangle className='w-3 h-3' />
+                  {errors.timeSlot}
+                </p>
+              )}
             </div>
-          )}
 
-          {/* Date */}
-          <div>
-            <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
-              <Calendar className='w-4 h-4 mr-2 text-amber-400' />
-              Select Date *
-            </label>
-            <input
-              type='date'
-              value={formData.date}
-              onChange={(e) => updateField('date', e.target.value)}
-              onClick={(e) => e.currentTarget.showPicker()}
-              min={getMinBookingDate()}
-              className={`w-full px-4 py-3 rounded-xl bg-white/5 border ${
-                errors.date ? 'border-red-500' : 'border-white/10'
-              } text-white focus:outline-none focus:border-amber-300/50 transition-colors`}
-            />
-            {errors.date && (
-              <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
-                <AlertTriangle className='w-3 h-3' />
-                {errors.date}
-              </p>
+            {/* Pickup Location */}
+            <div>
+              <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
+                <MapPin className='w-4 h-4 mr-2 text-amber-400' />
+                Pickup Location *
+              </label>
+              <PickupLocationInput
+                value={formData.pickupLocation}
+                onChange={(val) => updateField('pickupLocation', val)}
+                error={errors.pickupLocation}
+              />
+              {errors.pickupLocation && (
+                <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
+                  <AlertTriangle className='w-3 h-3' />
+                  {errors.pickupLocation}
+                </p>
+              )}
+            </div>
+
+            {/* Participants */}
+            <div>
+              <label className='flex items-center text-sm font-medium text-white/70 mb-3'>
+                <Users className='w-4 h-4 mr-2 text-amber-400' />
+                Participants *
+              </label>
+              <div className='border border-white/10 rounded-xl p-4 bg-white/5'>
+                <ParticipantCounter
+                  label='Adult'
+                  sublabel={`Above 10 years · $${tier.adult}`}
+                  value={formData.adults}
+                  onIncrement={() => updateField('adults', formData.adults + 1)}
+                  onDecrement={() =>
+                    formData.adults > 1 &&
+                    updateField('adults', formData.adults - 1)
+                  }
+                  icon={User}
+                  min={1}
+                />
+                <ParticipantCounter
+                  label='Child'
+                  sublabel={`5–10 years · $${tier.child}`}
+                  value={formData.children}
+                  onIncrement={() =>
+                    updateField('children', formData.children + 1)
+                  }
+                  onDecrement={() =>
+                    formData.children > 0 &&
+                    updateField('children', formData.children - 1)
+                  }
+                  icon={Users}
+                />
+              </div>
+              {errors.participants && (
+                <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
+                  <AlertTriangle className='w-3 h-3' />
+                  {errors.participants}
+                </p>
+              )}
+            </div>
+
+            {/* Price Summary */}
+            <PriceSummary formData={formData} pricing={pricing} />
+
+            {/* Transport line */}
+            {promoApplied && (
+              <div className='flex justify-between text-sm'>
+                <span className='flex items-center gap-2 text-white/60'>
+                  <Truck className='w-3.5 h-3.5' />
+                  Pickup Transport
+                </span>
+                {isPromoEligible ? (
+                  <span className='flex items-center gap-2'>
+                    <span className='text-white/30 line-through'>
+                      ${TRANSPORT_VALUE}
+                    </span>
+                    <span className='text-emerald-400 font-medium'>FREE</span>
+                  </span>
+                ) : (
+                  <span className='text-white/40'>${TRANSPORT_VALUE}</span>
+                )}
+              </div>
             )}
-          </div>
 
-          {/* Time Slot Picker */}
-          <div>
-            <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
-              <Clock className='w-4 h-4 mr-2 text-amber-400' />
-              Pickup Time *
-            </label>
-            <div
-              className={`border rounded-xl overflow-hidden ${
-                errors.timeSlot ? 'border-red-500' : 'border-white/10'
-              }`}
-            >
+            {/* Total */}
+            <div className='flex justify-between items-center pt-4 border-t border-white/10'>
+              <span className='text-white/60 text-sm uppercase tracking-wide'>
+                Total
+              </span>
+              <div className='flex items-baseline gap-3'>
+                {isPromoEligible && (
+                  <span className='text-sm text-emerald-400 font-light'>
+                    You save ${TRANSPORT_VALUE}
+                  </span>
+                )}
+                <span className='text-3xl font-light text-white'>
+                  ${pricing.total.toFixed(2)}
+                </span>
+              </div>
+            </div>
+
+            {/* Cancellation policy */}
+            <div className='flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/10'>
+              <Check className='w-4 h-4 text-emerald-400 flex-shrink-0' />
+              <p className='text-xs text-white/50 font-light'>
+                <span className='text-emerald-400 font-medium'>
+                  Free cancellation
+                </span>{' '}
+                up to 24 hours before the experience
+              </p>
+            </div>
+
+            {errors.submit && (
+              <div className='p-3 bg-red-500/10 border border-red-500/20 rounded-xl'>
+                <p className='text-red-400 text-sm flex items-center gap-2'>
+                  <AlertTriangle className='w-4 h-4' />
+                  {errors.submit}
+                </p>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className='flex flex-col sm:flex-row gap-3 pt-4'>
               <button
                 type='button'
-                onClick={() => setIsTimeSlotOpen(!isTimeSlotOpen)}
-                className='w-full px-4 py-3 bg-white/5 hover:bg-white/[0.08] transition flex items-center justify-between'
+                onClick={onClose}
+                disabled={isSubmitting}
+                className='flex-1 px-6 py-3 border border-white/20 rounded-xl text-white/70 hover:text-white hover:border-white/30 transition font-medium disabled:opacity-50'
               >
-                <div className='text-left'>
-                  <div className='text-sm text-white'>
-                    {TIME_SLOTS.find((s) => s.value === formData.timeSlot)
-                      ?.label ?? 'Select pickup time'}
-                  </div>
-                  <div className='text-xs text-white/40 mt-0.5'>
-                    Experience starts 1 hour after pickup
-                  </div>
-                </div>
-                <ChevronDown
-                  className={`w-4 h-4 text-white/40 transition-transform duration-300 ${
-                    isTimeSlotOpen ? 'rotate-180' : ''
-                  }`}
-                />
+                Cancel
               </button>
-
-              {isTimeSlotOpen && (
-                <div className='p-3 border-t border-white/5'>
-                  <div className='grid grid-cols-3 sm:grid-cols-4 gap-2'>
-                    {TIME_SLOTS.map((slot) => (
-                      <button
-                        key={slot.value}
-                        type='button'
-                        onClick={() => {
-                          updateField('timeSlot', slot.value);
-                          setIsTimeSlotOpen(false);
-                        }}
-                        className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
-                          formData.timeSlot === slot.value
-                            ? 'border-amber-500/50 bg-amber-500/15 text-amber-300'
-                            : 'border-white/10 bg-white/5 text-white/60 hover:border-amber-500/30 hover:text-white/80'
-                        }`}
-                      >
-                        <div className='flex items-center justify-center gap-1.5'>
-                          {formData.timeSlot === slot.value && (
-                            <CheckCircle className='w-3.5 h-3.5' />
-                          )}
-                          {slot.label}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <button
+                type='button'
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className='flex-1 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl transition flex items-center justify-center gap-2 disabled:opacity-50 font-medium shadow-lg hover:shadow-xl'
+              >
+                {isSubmitting ? (
+                  <Loader2 className='w-4 h-4 animate-spin' />
+                ) : (
+                  <CreditCard className='w-4 h-4' />
+                )}
+                {isSubmitting ? 'Redirecting...' : 'Proceed to Payment'}
+              </button>
             </div>
-            {errors.timeSlot && (
-              <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
-                <AlertTriangle className='w-3 h-3' />
-                {errors.timeSlot}
-              </p>
-            )}
-          </div>
-
-          {/* Pickup Location */}
-          <div>
-            <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
-              <MapPin className='w-4 h-4 mr-2 text-amber-400' />
-              Pickup Location *
-            </label>
-            <PickupLocationInput
-              value={formData.pickupLocation}
-              onChange={(val) => updateField('pickupLocation', val)}
-              error={errors.pickupLocation}
-            />
-            {errors.pickupLocation && (
-              <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
-                <AlertTriangle className='w-3 h-3' />
-                {errors.pickupLocation}
-              </p>
-            )}
-          </div>
-
-          {/* Participants */}
-          <div>
-            <label className='flex items-center text-sm font-medium text-white/70 mb-3'>
-              <Users className='w-4 h-4 mr-2 text-amber-400' />
-              Participants *
-            </label>
-            <div className='border border-white/10 rounded-xl p-4 bg-white/5'>
-              <ParticipantCounter
-                label='Adult'
-                sublabel={`Adults (Ages 11+) · $${PRICING.adult}`}
-                value={formData.adults}
-                onIncrement={() => updateField('adults', formData.adults + 1)}
-                onDecrement={() =>
-                  formData.adults > 1 &&
-                  updateField('adults', formData.adults - 1)
-                }
-                icon={User}
-                min={1}
-              />
-              <ParticipantCounter
-                label='Child'
-                sublabel={`Children (Ages 7-10) · $${PRICING.child}`}
-                value={formData.children}
-                onIncrement={() =>
-                  updateField('children', formData.children + 1)
-                }
-                onDecrement={() =>
-                  formData.children > 0 &&
-                  updateField('children', formData.children - 1)
-                }
-                icon={Users}
-              />
-            </div>
-            {errors.participants && (
-              <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
-                <AlertTriangle className='w-3 h-3' />
-                {errors.participants}
-              </p>
-            )}
-          </div>
-
-          {/* Price Summary */}
-          <PriceSummary formData={formData} pricing={pricing} />
-
-          {/* Transport line */}
-          {promoApplied && (
-            <div className='flex justify-between text-sm'>
-              <span className='flex items-center gap-2 text-white/60'>
-                <Truck className='w-3.5 h-3.5' />
-                Pickup Transport
-              </span>
-              {isPromoEligible ? (
-                <span className='flex items-center gap-2'>
-                  <span className='text-white/30 line-through'>
-                    ${TRANSPORT_VALUE}
-                  </span>
-                  <span className='text-emerald-400 font-medium'>FREE</span>
-                </span>
-              ) : (
-                <span className='text-white/40'>${TRANSPORT_VALUE}</span>
-              )}
-            </div>
-          )}
-
-          {/* Total */}
-          <div className='flex justify-between items-center pt-4 border-t border-white/10'>
-            <span className='text-white/60 text-sm uppercase tracking-wide'>
-              Total
-            </span>
-            <div className='flex items-baseline gap-3'>
-              {isPromoEligible && (
-                <span className='text-sm text-emerald-400 font-light'>
-                  You save ${TRANSPORT_VALUE}
-                </span>
-              )}
-              <span className='text-3xl font-light text-white'>
-                ${pricing.total.toFixed(2)}
-              </span>
-            </div>
-          </div>
-
-          {/* Cancellation policy */}
-          <div className='flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/10'>
-            <Check className='w-4 h-4 text-emerald-400 flex-shrink-0' />
-            <p className='text-xs text-white/50 font-light'>
-              <span className='text-emerald-400 font-medium'>
-                Free cancellation
-              </span>{' '}
-              up to 24 hours before the experience starts
-            </p>
-          </div>
-
-          {errors.submit && (
-            <div className='p-3 bg-red-500/10 border border-red-500/20 rounded-xl'>
-              <p className='text-red-400 text-sm flex items-center gap-2'>
-                <AlertTriangle className='w-4 h-4' />
-                {errors.submit}
-              </p>
-            </div>
-          )}
-
-          {/* Actions */}
-          <div className='flex flex-col sm:flex-row gap-3 pt-4'>
-            <button
-              type='button'
-              onClick={onClose}
-              disabled={isSubmitting}
-              className='flex-1 px-6 py-3 border border-white/20 rounded-xl text-white/70 hover:text-white hover:border-white/30 transition font-medium disabled:opacity-50'
-            >
-              Cancel
-            </button>
-            <button
-              type='button'
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className='flex-1 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl transition flex items-center justify-center gap-2 disabled:opacity-50 font-medium shadow-lg hover:shadow-xl'
-            >
-              {isSubmitting ? (
-                <Loader2 className='w-4 h-4 animate-spin' />
-              ) : (
-                <CreditCard className='w-4 h-4' />
-              )}
-              {isSubmitting ? 'Redirecting...' : 'Proceed to Payment'}
-            </button>
           </div>
         </div>
       </div>

@@ -7,8 +7,11 @@ export interface MediaItem {
   title: string;
 }
 
+export type ExperienceType = 'classic' | 'sunset';
+
 // ==================== BOOKING ====================
 export interface BookingFormData {
+  experience: ExperienceType;
   date: string;
   timeSlot: string;
   adults: number;

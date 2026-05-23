@@ -6,8 +6,6 @@ import { SectionProps } from '@/src/types';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 import GradientButton from '@/src/components/ui/GradientButton';
 
-const GUARANTEES = ['Instant Confirmation', 'Free Cancellation'];
-
 export default function FinalCTA({ onBookClick }: SectionProps) {
   return (
     <SectionReveal className='relative py-32 md:py-56 overflow-hidden'>
@@ -44,15 +42,6 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
               >
                 Reserve Now
               </GradientButton>
-
-              <div className='flex flex-wrap justify-center gap-6 md:gap-12 mt-10 md:mt-16 text-sm md:text-base text-white/40 font-light'>
-                {GUARANTEES.map((text, i) => (
-                  <div key={i} className='flex items-center gap-2'>
-                    <Check className='w-4 h-4 md:w-5 md:h-5 text-amber-300' />
-                    {text}
-                  </div>
-                ))}
-              </div>
             </RevealItem>
           </div>
         </>

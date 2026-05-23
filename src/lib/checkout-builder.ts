@@ -5,21 +5,22 @@ import type { CheckoutLineItem } from '@/src/lib/payments';
 export const buildLineItems = (
   formData: BookingFormData,
 ): CheckoutLineItem[] => {
+  const tier = PRICING[formData.experience];
   const items: CheckoutLineItem[] = [];
 
   if (formData.adults > 0) {
     items.push({
-      name: 'Sunset Horseback Riding — Adult',
+      name: `${tier.label} — Adult`,
       quantity: formData.adults,
-      unitAmountCents: PRICING.adult * 100,
+      unitAmountCents: tier.adult * 100,
     });
   }
 
   if (formData.children > 0) {
     items.push({
-      name: 'Sunset Horseback Riding — Child (5-10y)',
+      name: `${tier.label} — Child (5-10y)`,
       quantity: formData.children,
-      unitAmountCents: PRICING.child * 100,
+      unitAmountCents: tier.child * 100,
     });
   }
 
@@ -27,6 +28,7 @@ export const buildLineItems = (
 };
 
 export const buildCheckoutMetadata = (formData: BookingFormData) => ({
+  experience: formData.experience,
   bookingDate: formData.date,
   pickupTime: formData.timeSlot,
   pickupLocation: formData.pickupLocation,
