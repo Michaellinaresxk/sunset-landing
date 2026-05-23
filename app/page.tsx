@@ -11,24 +11,45 @@ import {
 } from '@/src/components/sections';
 import BookingModal from '@/src/components/booking/BookingModal';
 import FloatingBookButton from '@/src/components/FloatingBookButton';
+import PromoBanner from '@/src/components/PromoBanner';
+import ImageGallery from '@/src/components/sections/ImageGallery';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [promoApplied, setPromoApplied] = useState(false);
 
-  const handleBookNow = useCallback(() => setIsModalOpen(true), []);
-  const handleCloseModal = useCallback(() => setIsModalOpen(false), []);
+  const handleBookNow = useCallback(() => {
+    setPromoApplied(false);
+    setIsModalOpen(true);
+  }, []);
+
+  const handlePromoBook = useCallback(() => {
+    setPromoApplied(true);
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+    setPromoApplied(false);
+  }, []);
 
   return (
     <main className='min-h-screen bg-zinc-950 antialiased'>
       <HeroSection onBookClick={handleBookNow} />
-      <ExperienceSection />
+      <PromoBanner onBookClick={handlePromoBook} />
       <VideoGallery />
+      <ExperienceSection />
+      <ImageGallery />
       <StatsSection />
-      <UrgencySection />
       <FinalCTA onBookClick={handleBookNow} />
+      <UrgencySection />
 
       <FloatingBookButton onClick={handleBookNow} />
-      <BookingModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        promoApplied={promoApplied}
+      />
     </main>
   );
 }

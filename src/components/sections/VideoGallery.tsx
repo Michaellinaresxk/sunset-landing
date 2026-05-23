@@ -2,12 +2,11 @@
 
 import { useState, useRef } from 'react';
 import { Play } from 'lucide-react';
-import { GALLERY_VIDEOS, GALLERY_IMAGES } from '@/src/constants';
+import { GALLERY_VIDEOS } from '@/src/constants';
 import { MediaItem } from '@/src/types';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 import VideoPlayer from '@/src/components/media/VideoPlayer';
 
-// Shared thumbnail overlay for both mobile and desktop
 function VideoThumbnail({
   video,
   onClick,
@@ -40,10 +39,10 @@ export default function VideoGallery() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <SectionReveal className='py-24 md:py-40 bg-zinc-950 relative overflow-hidden'>
+    <SectionReveal className='py-15 md:py-20 bg-white relative overflow-hidden'>
       {(isVisible) => (
         <>
-          <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.03),transparent_50%)]' />
+          <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.06),transparent_50%)]' />
 
           <div className='max-w-7xl mx-auto px-4 md:px-8 relative z-10'>
             {/* Header */}
@@ -51,10 +50,10 @@ export default function VideoGallery() {
               isVisible={isVisible}
               className='text-center mb-16 md:mb-24'
             >
-              <h2 className='text-4xl md:text-7xl font-extralight text-white mb-6 tracking-tighter'>
+              <h2 className='text-4xl md:text-7xl font-extralight text-zinc-900 mb-6 tracking-tighter'>
                 Experience
               </h2>
-              <p className='text-base md:text-xl text-white/40 font-light'>
+              <p className='text-base md:text-xl text-zinc-400 font-light'>
                 Immerse yourself in the golden hour magic
               </p>
             </RevealItem>
@@ -87,8 +86,8 @@ export default function VideoGallery() {
                         </h3>
                       </div>
                       {i === 0 && (
-                        <div className='absolute top-3 right-3 bg-amber-300/20 backdrop-blur-md px-2.5 py-1 rounded-full animate-pulse'>
-                          <span className='text-xs text-amber-200 font-light'>
+                        <div className='absolute top-3 right-3 bg-amber-500/80 backdrop-blur-md px-2.5 py-1 rounded-full animate-pulse'>
+                          <span className='text-xs text-white font-light'>
                             Scroll →
                           </span>
                         </div>
@@ -101,7 +100,7 @@ export default function VideoGallery() {
                 {GALLERY_VIDEOS.map((_, i) => (
                   <div
                     key={i}
-                    className='w-1.5 h-1.5 rounded-full bg-white/30'
+                    className='w-1.5 h-1.5 rounded-full bg-zinc-300'
                   />
                 ))}
               </div>
@@ -118,7 +117,7 @@ export default function VideoGallery() {
                   <VideoThumbnail
                     video={video}
                     onClick={() => setSelectedVideo(video)}
-                    className='aspect-[9/16] rounded-3xl transition-all duration-700 hover:scale-105'
+                    className='aspect-[9/16] rounded-3xl shadow-xl shadow-zinc-200 transition-all duration-700 hover:scale-105 hover:shadow-2xl hover:shadow-amber-200/50'
                   >
                     <div className='absolute inset-0 bg-gradient-to-t from-amber-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700' />
                     <div className='absolute inset-0 flex items-center justify-center'>
@@ -132,31 +131,6 @@ export default function VideoGallery() {
                       </h3>
                     </div>
                   </VideoThumbnail>
-                </RevealItem>
-              ))}
-            </div>
-
-            {/* Image gallery */}
-            <div className='grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8'>
-              {GALLERY_IMAGES.map((image, i) => (
-                <RevealItem
-                  key={image.id}
-                  isVisible={isVisible}
-                  delay={(i + 3) * 200}
-                >
-                  <div className='group relative aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden transition-all duration-700 hover:scale-105'>
-                    <img
-                      src={image.src}
-                      alt={image.title}
-                      className='w-full h-full object-cover'
-                    />
-                    <div className='absolute inset-0 bg-gradient-to-t from-zinc-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700' />
-                    <div className='absolute bottom-0 left-0 right-0 p-4 md:p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500'>
-                      <h3 className='text-base md:text-xl font-light text-white'>
-                        {image.title}
-                      </h3>
-                    </div>
-                  </div>
                 </RevealItem>
               ))}
             </div>
