@@ -16,10 +16,21 @@ export const PRICING = {
 export const SCHEDULE = {
   pickupTime: '16:00',
   startTime: '17:00',
-  durationHours: 3,
+  durationHours: 2,
   pickupLabel: '4:00 PM',
   startLabel: '5:00 PM',
 } as const;
+
+// ==================== TIME SLOTS ====================
+export const TIME_SLOTS = Array.from({ length: 7 }, (_, i) => {
+  const hour = 8 + i; // 8 AM → 2 PM
+  const hour12 = hour > 12 ? hour - 12 : hour;
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  return {
+    value: `${hour}:00`,
+    label: `${hour12}:00 ${ampm}`,
+  };
+});
 
 // ==================== GALLERY ====================
 export const GALLERY_VIDEOS: MediaItem[] = [
