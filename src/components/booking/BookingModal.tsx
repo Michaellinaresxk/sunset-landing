@@ -17,7 +17,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { BookingFormData, FormErrors } from '@/src/types';
-import { PRICING, SCHEDULE, TIME_SLOTS } from '@/src/constants';
+import { PRICING, TIME_SLOTS } from '@/src/constants';
 import { calculatePricing, getMinBookingDate } from '@/src/utils/pricing';
 import ParticipantCounter from '@/src/components/ui/ParticipantCounter';
 import PriceSummary from './PriceSummary';
@@ -137,10 +137,6 @@ export default function BookingModal({
               </h3>
               <p className='text-amber-50 text-sm font-light'>
                 Sunset Horseback Riding - From ${PRICING.adult}/person
-              </p>
-              <p className='text-amber-100 text-xs font-light mt-1'>
-                📍 Pickup: {SCHEDULE.pickupLabel} | Experience:{' '}
-                {SCHEDULE.startLabel}
               </p>
             </div>
             <button

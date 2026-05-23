@@ -3,7 +3,7 @@ import { MediaItem, StatItem, ExperienceStep } from '@/src/types';
 
 // ==================== PRICING ====================
 export const PRICING = {
-  adult: 10,
+  adult: 75,
   childRate: 0.5, // 50% of adult
   infant: 0,
   processingFeeRate: 5, // 5%
