@@ -35,16 +35,6 @@ export default function PriceSummary({ formData, pricing }: PriceSummaryProps) {
         </div>
       )}
 
-      {formData.infants > 0 && (
-        <div className='flex justify-between text-sm text-green-400'>
-          <span>
-            {formData.infants} Infant{formData.infants > 1 ? 's' : ''} (under 5)
-            × Free
-          </span>
-          <span className='font-medium'>$0.00</span>
-        </div>
-      )}
-
       {pricing.processingFee > 0 && (
         <div className='flex justify-between text-sm text-white/40 pt-2 border-t border-white/5 mt-2'>
           <span>Processing fee ({PRICING.processingFeeRate}%)</span>

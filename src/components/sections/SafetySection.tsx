@@ -9,8 +9,10 @@ import {
   ShieldCheck,
   Heart,
   Sun,
+  Accessibility,
 } from 'lucide-react';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
+import ImportantNotesSection from '../ui/ImportantNotesSection';
 
 const SAFETY_ITEMS = [
   {
@@ -24,6 +26,10 @@ const SAFETY_ITEMS = [
   {
     icon: HeartPulse,
     text: 'Not recommended for pregnant women',
+  },
+  {
+    icon: Accessibility,
+    text: 'Not recommended for people with mobility issues',
   },
   {
     icon: CloudRain,
@@ -109,6 +115,8 @@ export default function SafetySection() {
               </div>
             </RevealItem>
           </div>
+
+          <ImportantNotesSection />
         </div>
       )}
     </SectionReveal>

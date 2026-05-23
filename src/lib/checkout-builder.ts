@@ -17,17 +17,9 @@ export const buildLineItems = (
 
   if (formData.children > 0) {
     items.push({
-      name: 'Sunset Horseback Riding — Child (5-10y, 50% off)',
+      name: 'Sunset Horseback Riding — Child (5-10y)',
       quantity: formData.children,
-      unitAmountCents: Math.round(PRICING.child * 100),
-    });
-  }
-
-  if (formData.infants > 0) {
-    items.push({
-      name: 'Sunset Horseback Riding — Infant (under 5, free)',
-      quantity: formData.infants,
-      unitAmountCents: 0,
+      unitAmountCents: PRICING.child * 100,
     });
   }
 
@@ -37,7 +29,7 @@ export const buildLineItems = (
 export const buildCheckoutMetadata = (formData: BookingFormData) => ({
   bookingDate: formData.date,
   pickupTime: formData.timeSlot,
+  pickupLocation: formData.pickupLocation,
   adults: String(formData.adults),
   children: String(formData.children),
-  infants: String(formData.infants),
 });

@@ -13,7 +13,7 @@ export interface BookingFormData {
   timeSlot: string;
   adults: number;
   children: number;
-  infants: number;
+  pickupLocation: string;
 }
 
 export interface FormErrors {

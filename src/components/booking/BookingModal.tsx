@@ -1,3 +1,4 @@
+// BookingModal.tsx
 'use client';
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
@@ -7,7 +8,7 @@ import {
   Clock,
   Users,
   User,
-  Baby,
+  MapPin,
   AlertTriangle,
   CreditCard,
   Loader2,
@@ -18,9 +19,10 @@ import {
 } from 'lucide-react';
 import { BookingFormData, FormErrors } from '@/src/types';
 import { PRICING, TIME_SLOTS } from '@/src/constants';
-import { calculatePricing, getMinBookingDate } from '@/src/utils/pricing';
+import { calculatePricing } from '@/src/utils/pricing';
 import ParticipantCounter from '@/src/components/ui/ParticipantCounter';
 import PriceSummary from './PriceSummary';
+import PickupLocationInput from '@/src/components/PickupLocationInput';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -30,6 +32,8 @@ interface BookingModalProps {
 
 const TRANSPORT_VALUE = 30;
 const MIN_GUESTS_FOR_PROMO = 2;
+
+const getMinBookingDate = (): string => new Date().toISOString().split('T')[0];
 
 export default function BookingModal({
   isOpen,
@@ -41,11 +45,12 @@ export default function BookingModal({
     timeSlot: '',
     adults: 1,
     children: 0,
-    infants: 0,
+    pickupLocation: '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTimeSlotOpen, setIsTimeSlotOpen] = useState(false);
 
   // When promo is applied, ensure at least 2 adults
   useEffect(() => {
@@ -55,7 +60,6 @@ export default function BookingModal({
   }, [promoApplied]);
 
   const pricing = useMemo(() => calculatePricing(formData), [formData]);
-  const [isTimeSlotOpen, setIsTimeSlotOpen] = useState(false);
 
   const totalGuests = formData.adults + formData.children;
   const isPromoEligible = promoApplied && totalGuests >= MIN_GUESTS_FOR_PROMO;
@@ -78,6 +82,8 @@ export default function BookingModal({
     const newErrors: FormErrors = {};
     if (!formData.date) newErrors.date = 'Date is required';
     if (!formData.timeSlot) newErrors.timeSlot = 'Pickup time is required';
+    if (!formData.pickupLocation.trim())
+      newErrors.pickupLocation = 'Pickup location is required';
     if (pricing.totalParticipants === 0)
       newErrors.participants = 'At least one participant is required';
     return newErrors;
@@ -136,7 +142,7 @@ export default function BookingModal({
                 Book Your Experience
               </h3>
               <p className='text-amber-50 text-sm font-light'>
-                Sunset Horseback Riding - From ${PRICING.adult}/person
+                Sunset Horseback Riding — From ${PRICING.adult}/person
               </p>
             </div>
             <button
@@ -149,7 +155,7 @@ export default function BookingModal({
         </div>
 
         <div className='p-6 md:p-8 space-y-6'>
-          {/* Promo Applied Banner */}
+          {/* Promo Banner */}
           {promoApplied && (
             <div
               className={`rounded-xl p-4 border transition-all duration-500 ${
@@ -225,7 +231,11 @@ export default function BookingModal({
               <Clock className='w-4 h-4 mr-2 text-amber-400' />
               Pickup Time *
             </label>
-            <div className='border border-white/10 rounded-xl overflow-hidden'>
+            <div
+              className={`border rounded-xl overflow-hidden ${
+                errors.timeSlot ? 'border-red-500' : 'border-white/10'
+              }`}
+            >
               <button
                 type='button'
                 onClick={() => setIsTimeSlotOpen(!isTimeSlotOpen)}
@@ -284,6 +294,25 @@ export default function BookingModal({
             )}
           </div>
 
+          {/* Pickup Location */}
+          <div>
+            <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
+              <MapPin className='w-4 h-4 mr-2 text-amber-400' />
+              Pickup Location *
+            </label>
+            <PickupLocationInput
+              value={formData.pickupLocation}
+              onChange={(val) => updateField('pickupLocation', val)}
+              error={errors.pickupLocation}
+            />
+            {errors.pickupLocation && (
+              <p className='text-red-400 text-xs mt-2 flex items-center gap-1'>
+                <AlertTriangle className='w-3 h-3' />
+                {errors.pickupLocation}
+              </p>
+            )}
+          </div>
+
           {/* Participants */}
           <div>
             <label className='flex items-center text-sm font-medium text-white/70 mb-3'>
@@ -293,7 +322,7 @@ export default function BookingModal({
             <div className='border border-white/10 rounded-xl p-4 bg-white/5'>
               <ParticipantCounter
                 label='Adult'
-                sublabel={`Above 11 years · $${PRICING.adult}`}
+                sublabel={`Above 10 years · $${PRICING.adult}`}
                 value={formData.adults}
                 onIncrement={() => updateField('adults', formData.adults + 1)}
                 onDecrement={() =>
@@ -305,7 +334,7 @@ export default function BookingModal({
               />
               <ParticipantCounter
                 label='Child'
-                sublabel={`5 - 10 years · $${PRICING.child.toFixed(2)} (50% off)`}
+                sublabel={`5–10 years · $${PRICING.child}`}
                 value={formData.children}
                 onIncrement={() =>
                   updateField('children', formData.children + 1)
@@ -315,17 +344,6 @@ export default function BookingModal({
                   updateField('children', formData.children - 1)
                 }
                 icon={Users}
-              />
-              <ParticipantCounter
-                label='Infant'
-                sublabel='Under 5 years · Free'
-                value={formData.infants}
-                onIncrement={() => updateField('infants', formData.infants + 1)}
-                onDecrement={() =>
-                  formData.infants > 0 &&
-                  updateField('infants', formData.infants - 1)
-                }
-                icon={Baby}
               />
             </div>
             {errors.participants && (

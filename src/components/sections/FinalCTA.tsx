@@ -6,11 +6,7 @@ import { SectionProps } from '@/src/types';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 import GradientButton from '@/src/components/ui/GradientButton';
 
-const GUARANTEES = [
-  'Instant Confirmation',
-  'Free Cancellation',
-  'Private Available',
-];
+const GUARANTEES = ['Instant Confirmation', 'Free Cancellation'];
 
 export default function FinalCTA({ onBookClick }: SectionProps) {
   return (
