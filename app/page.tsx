@@ -8,9 +8,9 @@ import {
   ExperienceSection,
   UrgencySection,
   FinalCTA,
-} from '@/components/sections';
-import BookingModal from '@/components/booking/BookingModal';
-import FloatingBookButton from '@/components/FloatingBookButton';
+} from '@/src/components/sections';
+import BookingModal from '@/src/components/booking/BookingModal';
+import FloatingBookButton from '@/src/components/FloatingBookButton';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,9 +21,9 @@ export default function HomePage() {
   return (
     <main className='min-h-screen bg-zinc-950 antialiased'>
       <HeroSection onBookClick={handleBookNow} />
-      <StatsSection />
-      <VideoGallery />
       <ExperienceSection />
+      <VideoGallery />
+      <StatsSection />
       <UrgencySection />
       <FinalCTA onBookClick={handleBookNow} />
 

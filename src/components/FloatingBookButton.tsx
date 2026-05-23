@@ -6,7 +6,9 @@ interface FloatingBookButtonProps {
   onClick: () => void;
 }
 
-export default function FloatingBookButton({ onClick }: FloatingBookButtonProps) {
+export default function FloatingBookButton({
+  onClick,
+}: FloatingBookButtonProps) {
   return (
     <button
       onClick={onClick}

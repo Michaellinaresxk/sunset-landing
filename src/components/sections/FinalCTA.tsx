@@ -1,12 +1,16 @@
 'use client';
 
 import { Calendar, Check } from 'lucide-react';
-import { CTA_IMAGE } from '@/constants';
-import { SectionProps } from '@/types';
-import SectionReveal, { RevealItem } from '@/components/ui/SectionReveal';
-import GradientButton from '@/components/ui/GradientButton';
+import { CTA_IMAGE } from '@/src/constants';
+import { SectionProps } from '@/src/types';
+import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
+import GradientButton from '@/src/components/ui/GradientButton';
 
-const GUARANTEES = ['Instant Confirmation', 'Free Cancellation', 'Private Available'];
+const GUARANTEES = [
+  'Instant Confirmation',
+  'Free Cancellation',
+  'Private Available',
+];
 
 export default function FinalCTA({ onBookClick }: SectionProps) {
   return (
@@ -14,7 +18,11 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
       {(isVisible) => (
         <>
           <div className='absolute inset-0'>
-            <img src={CTA_IMAGE} alt='Sunset horseback riding' className='w-full h-full object-cover' />
+            <img
+              src={CTA_IMAGE}
+              alt='Sunset horseback riding'
+              className='w-full h-full object-cover'
+            />
             <div className='absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/60 to-zinc-950/90' />
           </div>
 
@@ -28,10 +36,16 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
               </h2>
 
               <p className='text-lg md:text-2xl lg:text-3xl text-white/60 font-light mb-12 md:mb-16 max-w-3xl mx-auto leading-relaxed'>
-                Limited availability. Reserve your exclusive golden hour experience today.
+                Limited availability. Reserve your exclusive golden hour
+                experience today.
               </p>
 
-              <GradientButton onClick={onBookClick} icon={Calendar} size='xl' showArrow>
+              <GradientButton
+                onClick={onBookClick}
+                icon={Calendar}
+                size='xl'
+                showArrow
+              >
                 Reserve Now
               </GradientButton>
 

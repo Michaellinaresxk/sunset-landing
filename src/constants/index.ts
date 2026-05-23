@@ -1,5 +1,5 @@
 import { Heart, Star, Award, Users } from 'lucide-react';
-import { MediaItem, StatItem, ExperienceStep } from '@/types';
+import { MediaItem, StatItem, ExperienceStep } from '@/src/types';
 
 // ==================== PRICING ====================
 export const PRICING = {

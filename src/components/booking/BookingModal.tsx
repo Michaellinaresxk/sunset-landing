@@ -10,11 +10,12 @@ import {
   Baby,
   AlertTriangle,
   CreditCard,
+  Loader2,
 } from 'lucide-react';
-import { BookingFormData, FormErrors } from '@/types';
-import { PRICING, SCHEDULE } from '@/constants';
-import { calculatePricing, getMinBookingDate } from '@/utils/pricing';
-import ParticipantCounter from '@/components/ui/ParticipantCounter';
+import { BookingFormData, FormErrors } from '@/src/types';
+import { PRICING, SCHEDULE } from '@/src/constants';
+import { calculatePricing, getMinBookingDate } from '@/src/utils/pricing';
+import ParticipantCounter from '@/src/components/ui/ParticipantCounter';
 import PriceSummary from './PriceSummary';
 
 interface BookingModalProps {
@@ -65,23 +66,30 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     }
 
     setIsSubmitting(true);
+    setErrors({});
 
     try {
-      // Build WhatsApp or email inquiry with booking details
-      const message = encodeURIComponent(
-        `Hello! I'd like to book the Sunset Horseback Riding Experience.\n\n` +
-          `Date: ${formData.date}\n` +
-          `Adults: ${formData.adults}\n` +
-          `Children: ${formData.children}\n` +
-          `Infants: ${formData.infants}\n` +
-          `Total: $${pricing.total.toFixed(2)}\n\n` +
-          `Please confirm availability.`,
-      );
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ formData }),
+      });
 
-      window.location.href = `mailto:info@luxpuntacana.com?subject=Sunset Ride Booking - ${formData.date}&body=${message}`;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Checkout failed');
+      }
+
+      window.location.href = data.checkoutUrl;
     } catch (error) {
-      console.error('Error submitting form:', error);
-      setErrors({ submit: 'Failed to submit booking. Please try again.' });
+      console.error('[BookingModal] Checkout error:', error);
+      setErrors({
+        submit:
+          error instanceof Error
+            ? error.message
+            : 'Failed to start checkout. Please try again.',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -247,8 +255,12 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               disabled={isSubmitting}
               className='flex-1 px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl transition flex items-center justify-center gap-2 disabled:opacity-50 font-medium shadow-lg hover:shadow-xl'
             >
-              <CreditCard className='w-4 h-4' />
-              {isSubmitting ? 'Processing...' : 'Confirm Booking'}
+              {isSubmitting ? (
+                <Loader2 className='w-4 h-4 animate-spin' />
+              ) : (
+                <CreditCard className='w-4 h-4' />
+              )}
+              {isSubmitting ? 'Redirecting...' : 'Proceed to Payment'}
             </button>
           </div>
         </div>
