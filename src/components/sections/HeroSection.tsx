@@ -7,7 +7,7 @@ import GradientButton from '@/src/components/ui/GradientButton';
 import { SectionProps } from '@/src/types';
 
 const HERO_FEATURES = [
-  { label: '3.5 Hours', icon: Clock },
+  { label: '2 Hours', icon: Clock },
   { label: 'Small Groups', icon: Users },
   { label: 'All Inclusive', icon: Check },
 ];
