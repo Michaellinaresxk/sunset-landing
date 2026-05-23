@@ -16,8 +16,8 @@ const INCLUDES = [
   { label: 'Playa Macao beach ride', icon: MapPin },
   { label: 'Scenic river trail', icon: Waves },
   { label: 'Shopping stop', icon: ShoppingBag },
-  { label: 'Professional photo ops', icon: Camera },
-  { label: 'Safety equipment', icon: Shield },
+  { label: 'Professional photo (optional)', icon: Camera },
+  { label: 'Professional guide', icon: Shield },
 ];
 
 export default function IncludesSection() {

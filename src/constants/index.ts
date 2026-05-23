@@ -4,12 +4,9 @@ import { MediaItem, StatItem, ExperienceStep } from '@/src/types';
 // ==================== PRICING ====================
 export const PRICING = {
   adult: 75,
-  childRate: 0.5, // 50% of adult
+  child: 60,
   infant: 0,
   processingFeeRate: 5, // 5%
-  get child() {
-    return this.adult * this.childRate;
-  },
 } as const;
 
 // ==================== SCHEDULE ====================
@@ -22,7 +19,7 @@ export const SCHEDULE = {
 } as const;
 
 // ==================== TIME SLOTS ====================
-export const TIME_SLOTS = Array.from({ length: 7 }, (_, i) => {
+export const TIME_SLOTS = Array.from({ length: 9 }, (_, i) => {
   const hour = 8 + i; // 8 AM → 2 PM
   const hour12 = hour > 12 ? hour - 12 : hour;
   const ampm = hour >= 12 ? 'PM' : 'AM';
@@ -100,10 +97,22 @@ export const GALLERY_IMAGES: MediaItem[] = [
   },
 ];
 
+// ==================== PICKUP LOCATIONS ====================
+export const PICKUP_LOCATIONS = [
+  'Bávaro, Punta Cana',
+  'Punta Cana Village',
+  'Hotel Barceló Bávaro Palace',
+  'Riu Palace Punta Cana',
+  'Uvero Alto',
+  'Cap Cana',
+  'Hard Rock Hotel & Casino',
+  'Dreams Punta Cana',
+] as const;
+
 // ==================== STATS ====================
 export const STATS: StatItem[] = [
   { number: '500+', label: 'Happy Guests', icon: Heart },
-  { number: '5.0', label: 'Perfect Rating', icon: Star },
+  { number: '4.8', label: 'Perfect Rating', icon: Star },
   { number: '100%', label: 'Satisfaction', icon: Award },
   { number: '25+', label: 'Group Size', icon: Users },
 ];
@@ -112,8 +121,8 @@ export const STATS: StatItem[] = [
 export const EXPERIENCE_STEPS: ExperienceStep[] = [
   {
     number: '01',
-    title: 'Arrival',
-    desc: 'VIP welcome with tropical refreshments',
+    title: 'Welcome',
+    desc: 'To our sunset horseback riding experience!',
   },
   {
     number: '02',

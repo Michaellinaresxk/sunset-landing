@@ -42,9 +42,9 @@ export default function HomePage() {
       <HeroSection onBookClick={handleBookNow} />
       <QuickInfoBar />
       <ImageGallery />
+      <IncludesSection />
       <PromoBanner onBookClick={handlePromoBook} />
       <DescriptionSection />
-      <IncludesSection />
       {/* <VideoGallery /> */}
       <ExperienceSection />
       <SafetySection />
