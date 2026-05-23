@@ -18,8 +18,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Date is required' }, { status: 400 });
     }
 
-    const totalParticipants =
-      formData.adults + formData.children + formData.infants;
+    const totalParticipants = formData.adults + formData.children;
     if (totalParticipants === 0) {
       return NextResponse.json(
         { error: 'At least one participant is required' },
