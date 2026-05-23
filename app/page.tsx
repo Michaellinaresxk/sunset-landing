@@ -13,6 +13,10 @@ import BookingModal from '@/src/components/booking/BookingModal';
 import FloatingBookButton from '@/src/components/FloatingBookButton';
 import PromoBanner from '@/src/components/PromoBanner';
 import ImageGallery from '@/src/components/sections/ImageGallery';
+import QuickInfoBar from '@/src/components/sections/QuickInfoBar';
+import SafetySection from '@/src/components/sections/SafetySection';
+import IncludesSection from '@/src/components/sections/IncludesSection';
+import DescriptionSection from '@/src/components/sections/DescriptionSection';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,10 +40,14 @@ export default function HomePage() {
   return (
     <main className='min-h-screen bg-zinc-950 antialiased'>
       <HeroSection onBookClick={handleBookNow} />
-      <PromoBanner onBookClick={handlePromoBook} />
-      <VideoGallery />
-      <ExperienceSection />
+      <QuickInfoBar />
       <ImageGallery />
+      <PromoBanner onBookClick={handlePromoBook} />
+      <DescriptionSection />
+      <IncludesSection />
+      {/* <VideoGallery /> */}
+      <ExperienceSection />
+      <SafetySection />
       <StatsSection />
       <FinalCTA onBookClick={handleBookNow} />
       <UrgencySection />
