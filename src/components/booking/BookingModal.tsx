@@ -322,7 +322,7 @@ export default function BookingModal({
             <div className='border border-white/10 rounded-xl p-4 bg-white/5'>
               <ParticipantCounter
                 label='Adult'
-                sublabel={`Above 10 years · $${PRICING.adult}`}
+                sublabel={`Adults (Ages 11+) · $${PRICING.adult}`}
                 value={formData.adults}
                 onIncrement={() => updateField('adults', formData.adults + 1)}
                 onDecrement={() =>
@@ -334,7 +334,7 @@ export default function BookingModal({
               />
               <ParticipantCounter
                 label='Child'
-                sublabel={`5–10 years · $${PRICING.child}`}
+                sublabel={`Children (Ages 7-10) · $${PRICING.child}`}
                 value={formData.children}
                 onIncrement={() =>
                   updateField('children', formData.children + 1)
