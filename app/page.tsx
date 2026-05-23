@@ -52,7 +52,7 @@ export default function HomePage() {
       <FinalCTA onBookClick={handleBookNow} />
       <UrgencySection />
 
-      <FloatingBookButton onClick={handleBookNow} />
+      <FloatingBookButton />
       <BookingModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
