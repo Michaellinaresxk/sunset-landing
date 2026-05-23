@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   X,
   Calendar,
@@ -11,6 +11,8 @@ import {
   AlertTriangle,
   CreditCard,
   Loader2,
+  Truck,
+  Check,
 } from 'lucide-react';
 import { BookingFormData, FormErrors } from '@/src/types';
 import { PRICING, SCHEDULE } from '@/src/constants';
@@ -21,9 +23,17 @@ import PriceSummary from './PriceSummary';
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
+  promoApplied?: boolean;
 }
 
-export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
+const TRANSPORT_VALUE = 30;
+const MIN_GUESTS_FOR_PROMO = 2;
+
+export default function BookingModal({
+  isOpen,
+  onClose,
+  promoApplied = false,
+}: BookingModalProps) {
   const [formData, setFormData] = useState<BookingFormData>({
     date: '',
     adults: 1,
@@ -34,7 +44,17 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // When promo is applied, ensure at least 2 adults
+  useEffect(() => {
+    if (promoApplied && formData.adults < MIN_GUESTS_FOR_PROMO) {
+      setFormData((prev) => ({ ...prev, adults: MIN_GUESTS_FOR_PROMO }));
+    }
+  }, [promoApplied]);
+
   const pricing = useMemo(() => calculatePricing(formData), [formData]);
+
+  const totalGuests = formData.adults + formData.children;
+  const isPromoEligible = promoApplied && totalGuests >= MIN_GUESTS_FOR_PROMO;
 
   const updateField = useCallback(
     (field: keyof BookingFormData, value: number | string) => {
@@ -72,7 +92,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ formData }),
+        body: JSON.stringify({
+          formData,
+          promoApplied: isPromoEligible,
+        }),
       });
 
       const data = await response.json();
@@ -125,6 +148,52 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         </div>
 
         <div className='p-6 md:p-8 space-y-6'>
+          {/* Promo Applied Banner */}
+          {promoApplied && (
+            <div
+              className={`rounded-xl p-4 border transition-all duration-500 ${
+                isPromoEligible
+                  ? 'bg-emerald-500/10 border-emerald-500/20'
+                  : 'bg-amber-500/10 border-amber-500/20'
+              }`}
+            >
+              <div className='flex items-center gap-3'>
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    isPromoEligible ? 'bg-emerald-500/20' : 'bg-amber-500/20'
+                  }`}
+                >
+                  {isPromoEligible ? (
+                    <Check className='w-5 h-5 text-emerald-400' />
+                  ) : (
+                    <Truck className='w-5 h-5 text-amber-400' />
+                  )}
+                </div>
+                <div className='flex-1 min-w-0'>
+                  <div
+                    className={`text-sm font-medium ${
+                      isPromoEligible ? 'text-emerald-300' : 'text-amber-300'
+                    }`}
+                  >
+                    {isPromoEligible
+                      ? 'Free Transport Applied!'
+                      : 'Free Transport — Add 1 more guest'}
+                  </div>
+                  <div className='text-xs text-white/40 mt-0.5'>
+                    {isPromoEligible
+                      ? `You're saving $${TRANSPORT_VALUE} on pickup transport`
+                      : `Book ${MIN_GUESTS_FOR_PROMO}+ guests to unlock free pickup transport`}
+                  </div>
+                </div>
+                {isPromoEligible && (
+                  <div className='text-sm font-medium text-emerald-400 flex-shrink-0'>
+                    −${TRANSPORT_VALUE}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Date */}
           <div>
             <label className='flex items-center text-sm font-medium text-white/70 mb-2'>
@@ -220,14 +289,41 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           {/* Price Summary */}
           <PriceSummary formData={formData} pricing={pricing} />
 
+          {/* Transport line */}
+          {promoApplied && (
+            <div className='flex justify-between text-sm'>
+              <span className='flex items-center gap-2 text-white/60'>
+                <Truck className='w-3.5 h-3.5' />
+                Pickup Transport
+              </span>
+              {isPromoEligible ? (
+                <span className='flex items-center gap-2'>
+                  <span className='text-white/30 line-through'>
+                    ${TRANSPORT_VALUE}
+                  </span>
+                  <span className='text-emerald-400 font-medium'>FREE</span>
+                </span>
+              ) : (
+                <span className='text-white/40'>${TRANSPORT_VALUE}</span>
+              )}
+            </div>
+          )}
+
           {/* Total */}
           <div className='flex justify-between items-center pt-4 border-t border-white/10'>
             <span className='text-white/60 text-sm uppercase tracking-wide'>
               Total
             </span>
-            <span className='text-3xl font-light text-white'>
-              ${pricing.total.toFixed(2)}
-            </span>
+            <div className='flex items-baseline gap-3'>
+              {isPromoEligible && (
+                <span className='text-sm text-emerald-400 font-light'>
+                  You save ${TRANSPORT_VALUE}
+                </span>
+              )}
+              <span className='text-3xl font-light text-white'>
+                ${pricing.total.toFixed(2)}
+              </span>
+            </div>
           </div>
 
           {errors.submit && (
