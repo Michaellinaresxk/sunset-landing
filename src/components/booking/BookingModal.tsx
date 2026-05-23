@@ -394,6 +394,17 @@ export default function BookingModal({
             </div>
           </div>
 
+          {/* Cancellation policy */}
+          <div className='flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/10'>
+            <Check className='w-4 h-4 text-emerald-400 flex-shrink-0' />
+            <p className='text-xs text-white/50 font-light'>
+              <span className='text-emerald-400 font-medium'>
+                Free cancellation
+              </span>{' '}
+              up to 24 hours before the experience starts
+            </p>
+          </div>
+
           {errors.submit && (
             <div className='p-3 bg-red-500/10 border border-red-500/20 rounded-xl'>
               <p className='text-red-400 text-sm flex items-center gap-2'>
