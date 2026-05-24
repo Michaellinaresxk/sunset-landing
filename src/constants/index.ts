@@ -10,13 +10,13 @@ import {
 
 export const PRICING = {
   classic: {
-    adult: 5,
+    adult: 65,
     child: 55,
     label: 'Classic Ride',
   },
   sunset: {
     adult: 75,
-    child: 66,
+    child: 65,
     label: 'Sunset Experience',
   },
   processingFeeRate: 5,
