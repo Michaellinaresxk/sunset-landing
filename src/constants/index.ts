@@ -10,7 +10,7 @@ import {
 
 export const PRICING = {
   classic: {
-    adult: 65,
+    adult: 5,
     child: 55,
     label: 'Classic Ride',
   },
