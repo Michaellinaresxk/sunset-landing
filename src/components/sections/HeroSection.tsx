@@ -1,16 +1,10 @@
 'use client';
 
-import { Clock, Users, Check, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { useScrollReveal } from '@/src/hooks';
 import { HERO_IMAGE } from '@/src/constants';
 import GradientButton from '@/src/components/ui/GradientButton';
 import { SectionProps } from '@/src/types';
-
-const HERO_FEATURES = [
-  { label: '2 Hours', icon: Clock },
-  { label: 'Small Groups', icon: Users },
-  { label: 'All Inclusive', icon: Check },
-];
 
 export default function HeroSection({ onBookClick }: SectionProps) {
   const scrollY = useScrollReveal();
@@ -46,9 +40,9 @@ export default function HeroSection({ onBookClick }: SectionProps) {
 
             {/* Title */}
             <h1 className='text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight text-white tracking-tighter leading-none'>
-              Golden
+              Horseback
               <span className='block text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200 mt-2 md:mt-4'>
-                Hour
+                Riding
               </span>
             </h1>
 
@@ -60,7 +54,7 @@ export default function HeroSection({ onBookClick }: SectionProps) {
             {/* CTA */}
             <div className='flex flex-col sm:flex-row gap-4 md:gap-6 pt-4'>
               <GradientButton onClick={onBookClick} size='lg' showArrow>
-                Experience Golden Hour
+                Book Now
               </GradientButton>
             </div>
           </div>
