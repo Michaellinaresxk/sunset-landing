@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react';
 import {
   HeroSection,
   StatsSection,
-  VideoGallery,
   ExperienceSection,
   UrgencySection,
   FinalCTA,
