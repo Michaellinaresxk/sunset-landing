@@ -11,12 +11,12 @@ import {
 export const PRICING = {
   classic: {
     adult: 65,
-    child: 50,
+    child: 55,
     label: 'Classic Ride',
   },
   sunset: {
     adult: 75,
-    child: 60,
+    child: 66,
     label: 'Sunset Experience',
   },
   processingFeeRate: 5,
@@ -119,6 +119,11 @@ export const GALLERY_IMAGES: MediaItem[] = [
 // ==================== PICKUP LOCATIONS ====================
 export const PICKUP_LOCATIONS = [
   'Bávaro, Punta Cana',
+  'Bávaro Beach',
+  'Breathless Punta Cana Resort & Spa',
+  'Catalonia Bávaro Beach, Golf & Casino Resort',
+  'Dreams Palm Beach Punta Cana',
+  'Excellence El Carmen',
   'Punta Cana Village',
   'Hotel Barceló Bávaro Palace',
   'Riu Palace Punta Cana',
@@ -126,6 +131,23 @@ export const PICKUP_LOCATIONS = [
   'Cap Cana',
   'Hard Rock Hotel & Casino',
   'Dreams Punta Cana',
+  'Iberostar Grand Bávaro',
+  'Meliá Caribe Beach',
+  'Paradisus Palma Real',
+  'Punta Cana Resort & Club',
+  'The Westin Puntacana Resort & Club',
+  'Zoëtry Agua Punta Cana',
+  'Bahia Principe Grand Punta Cana',
+  'Catalonia Royal Bavaro',
+  'Excellence Punta Cana',
+  'Grand Palladium Punta Cana Resort & Spa',
+  'Hotel Riu Palace Macao',
+  'Hotel Riu Palace Bavaro',
+  'Hotel Riu Palace Punta Cana',
+  'Majestic Elegance Punta Cana',
+  'Ocean Blue & Sand',
+  'Riu Palace Macao',
+  'VIK Hotel Arena Blanca',
 ] as const;
 
 // ==================== STATS ====================
@@ -146,12 +168,12 @@ export const EXPERIENCE_STEPS: ExperienceStep[] = [
   {
     number: '02',
     title: 'Safety Briefing',
-    desc: 'Instructions and rules before hitting the trails.',
+    desc: 'Instructions before hitting the trails.',
   },
   {
     number: '03',
-    title: 'Golden Hour',
-    desc: "Witness nature's masterpiece unfold",
+    title: 'No Experience Required',
+    desc: 'Our guide will ensure a safe and enjoyable ride for all skill levels.',
   },
   {
     number: '04',
