@@ -71,7 +71,7 @@ export default function PromoBanner({ onBookClick }: PromoBannerProps) {
             <div className='inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/25 backdrop-blur-sm mb-8 md:mb-10'>
               <Flame className='w-4 h-4 text-orange-400 animate-pulse' />
               <span className='text-orange-300 text-xs sm:text-sm font-light tracking-wider uppercase'>
-                Limited Time Offer
+                Limited Offer
               </span>
             </div>
 

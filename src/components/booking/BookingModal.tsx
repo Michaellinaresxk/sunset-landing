@@ -31,7 +31,7 @@ interface BookingModalProps {
   promoApplied?: boolean;
 }
 
-const TRANSPORT_VALUE = 30;
+const TRANSPORT_VALUE = 126;
 const MIN_GUESTS_FOR_PROMO = 2;
 
 const getMinBookingDate = (): string => new Date().toISOString().split('T')[0];

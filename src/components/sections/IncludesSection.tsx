@@ -11,7 +11,7 @@ import {
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 
 const INCLUDES = [
-  { label: 'Round trip transportation', icon: Truck },
+  { label: 'Round trip transportation (limited offer)', icon: Truck },
   { label: 'Playa Macao beach ride', icon: MapPin },
   { label: 'Scenic river trail', icon: Waves },
   { label: 'Shopping stop', icon: ShoppingBag },
