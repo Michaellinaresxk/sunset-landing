@@ -37,7 +37,7 @@ export const TIME_SLOTS: Record<
   { value: string; label: string }[]
 > = {
   classic: Array.from({ length: 7 }, (_, i) => {
-    const hour = 8 + i;
+    const hour = 9 + i; // 9 AM → 4 PM
     const hour12 = hour > 12 ? hour - 12 : hour;
     const ampm = hour >= 12 ? 'PM' : 'AM';
     return { value: `${hour}:00`, label: `${hour12}:00 ${ampm}` };
@@ -45,7 +45,6 @@ export const TIME_SLOTS: Record<
   sunset: [
     { value: '16:00', label: '4:00 PM' },
     { value: '16:30', label: '4:30 PM' },
-    { value: '17:00', label: '5:00 PM' },
   ],
 };
 
@@ -142,12 +141,12 @@ export const EXPERIENCE_STEPS: ExperienceStep[] = [
   {
     number: '01',
     title: 'Welcome',
-    desc: 'To our sunset horseback riding experience!',
+    desc: 'Horseback riding experience!',
   },
   {
     number: '02',
-    title: 'Journey',
-    desc: 'Guided ride through pristine trails',
+    title: 'Safety Briefing',
+    desc: 'Instructions and rules before hitting the trails.',
   },
   {
     number: '03',

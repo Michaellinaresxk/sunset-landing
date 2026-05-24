@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Check } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { CTA_IMAGE } from '@/src/constants';
 import { SectionProps } from '@/src/types';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
@@ -30,8 +30,8 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
               </h2>
 
               <p className='text-lg md:text-2xl lg:text-3xl text-white/60 font-light mb-12 md:mb-16 max-w-3xl mx-auto leading-relaxed'>
-                Limited availability. Reserve your exclusive golden hour
-                experience today.
+                Limited availability. Book your exclusive golden hour experience
+                today.
               </p>
 
               <GradientButton
@@ -40,7 +40,7 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
                 size='xl'
                 showArrow
               >
-                Reserve Now
+                Book Now
               </GradientButton>
             </RevealItem>
           </div>
