@@ -163,22 +163,22 @@ export const EXPERIENCE_STEPS: ExperienceStep[] = [
   {
     number: '01',
     title: 'Welcome',
-    desc: 'Horseback riding experience!',
+    desc: 'Unforgettable journey with a premium riding experience!',
   },
   {
     number: '02',
     title: 'Safety Briefing',
-    desc: 'Instructions before hitting the trails.',
+    desc: 'Receive essential instructions before hitting the scenic trails.',
   },
   {
     number: '03',
     title: 'No Experience Required',
-    desc: 'Our guide will ensure a safe and enjoyable ride for all skill levels.',
+    desc: 'Our expert guide ensures safe and enjoyable ride for all skill levels.',
   },
   {
     number: '04',
     title: 'Serenity',
-    desc: 'Pause at the shore as waves meet hooves',
+    desc: 'Pause at the shore as gentle ocean waves meet the horses',
   },
 ];
 

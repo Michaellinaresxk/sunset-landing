@@ -29,7 +29,7 @@ export default function HeroSection({ onBookClick }: SectionProps) {
       {/* Content */}
       <div className='relative z-10 h-full flex items-end pb-24 md:pb-32'>
         <div className='max-w-7xl mx-auto px-4 md:px-8 w-full'>
-          <div className='max-w-4xl space-y-8 md:space-y-10'>
+          <div className='max-w-4xl space-y-4 md:space-y-4'>
             {/* Badge */}
             <div className='inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10'>
               <div className='w-2 h-2 rounded-full bg-amber-300 animate-pulse' />
@@ -39,9 +39,9 @@ export default function HeroSection({ onBookClick }: SectionProps) {
             </div>
 
             {/* Title */}
-            <h1 className='text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight text-white tracking-tighter leading-none'>
+            <h1 className='text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-extralight text-white tracking-tighter leading-none'>
               Horseback
-              <span className='block text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200 mt-2 md:mt-4'>
+              <span className='block text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200'>
                 Riding
               </span>
             </h1>
@@ -52,8 +52,13 @@ export default function HeroSection({ onBookClick }: SectionProps) {
             </p>
 
             {/* CTA */}
-            <div className='flex flex-col sm:flex-row gap-4 md:gap-6 pt-4'>
-              <GradientButton onClick={onBookClick} size='lg' showArrow>
+            <div className='flex flex-col sm:flex-row gap-4 md:gap-6'>
+              <GradientButton
+                onClick={onBookClick}
+                size='lg'
+                showArrow
+                className='w-fit'
+              >
                 Book Now
               </GradientButton>
             </div>

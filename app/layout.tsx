@@ -16,10 +16,10 @@ const geistMono = Geist_Mono({
 // ── Constants ─────────────────────────────────────────────────
 const SITE_URL = 'https://sunset.luxpuntacana.com';
 const SITE_NAME = 'LuxPuntaCana';
-const OG_IMAGE = `${SITE_URL}/og-image.jpg`; // 1200×630px recommended
+const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 const TWITTER_HANDLE = '@luxpuntacana';
 
-// ── Viewport (exported separately in Next 16) ────────────────
+// ── Viewport (exported separately in Next 15+) ───────────────
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     },
   },
 
-  // ▸ Open Graph — rich previews on Facebook, WhatsApp, iMessage, LinkedIn
+  // ▸ Open Graph
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
     ],
   },
 
-  // ▸ Twitter Card — rich previews on X / Twitter
+  // ▸ Twitter Card
   twitter: {
     card: 'summary_large_image',
     site: TWITTER_HANDLE,
@@ -120,82 +120,34 @@ export const metadata: Metadata = {
 };
 
 // ── Structured Data (JSON-LD) ─────────────────────────────────
+//
+// Google-supported rich result types used here:
+//   1. LocalBusiness   → star rating, map pack, knowledge panel
+//   2. Product         → price, availability, review stars in SERPs
+//   3. FAQPage         → expandable FAQ rich results
+//   4. BreadcrumbList  → breadcrumb trail in SERPs
+//   5. WebSite         → sitelinks search box
+//
+// Rules followed:
+//   • ONE AggregateRating per page, on LocalBusiness only
+//   • Product type wraps the tour for price/offer rich results
+//   • @id used for cross-referencing entities without duplication
+//   • No rating on FAQPage (unsupported by Google)
+//   • validFrom uses a fixed launch date, not new Date()
+//
+
+const BUSINESS_ID = `${SITE_URL}/#business`;
+const PRODUCT_ID = `${SITE_URL}/#product`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
-    // 1. TouristTrip — main product
-    {
-      '@type': 'TouristTrip',
-      name: 'Sunset Horseback Riding Experience — Playa Macao',
-      description:
-        'A 2-hour guided horseback ride along Playa Macao beach and a scenic river trail at golden hour, with round-trip hotel transfers from Punta Cana resorts.',
-      touristType: ['Adventure', 'Nature', 'Beach'],
-      url: SITE_URL,
-      image: OG_IMAGE,
-      provider: {
-        '@type': 'TourProvider',
-        name: SITE_NAME,
-        url: SITE_URL,
-        email: 'info@luxpuntacana.com',
-        telephone: '+1-829-812-3753',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Punta Cana',
-          addressRegion: 'La Altagracia',
-          addressCountry: 'DO',
-        },
-      },
-      offers: [
-        {
-          '@type': 'Offer',
-          name: 'Classic Ride — Adult',
-          price: '65.00',
-          priceCurrency: 'USD',
-          availability: 'https://schema.org/InStock',
-          validFrom: new Date().toISOString().split('T')[0],
-          url: SITE_URL,
-        },
-        {
-          '@type': 'Offer',
-          name: 'Sunset Experience — Adult',
-          price: '75.00',
-          priceCurrency: 'USD',
-          availability: 'https://schema.org/InStock',
-          validFrom: new Date().toISOString().split('T')[0],
-          url: SITE_URL,
-        },
-      ],
-      itinerary: {
-        '@type': 'ItemList',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Hotel pickup & welcome',
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Safety briefing & horse pairing',
-          },
-          {
-            '@type': 'ListItem',
-            position: 3,
-            name: 'Golden hour beach & river ride',
-          },
-          {
-            '@type': 'ListItem',
-            position: 4,
-            name: 'Return transfer to hotel',
-          },
-        ],
-      },
-    },
-
-    // 2. LocalBusiness — branded entity
+    // ─── 1. LocalBusiness ─────────────────────────────────────
+    // The branded entity — carries the ONLY AggregateRating on the page.
     {
       '@type': 'LocalBusiness',
-      '@id': `${SITE_URL}/#business`,
+      '@id': BUSINESS_ID,
       name: SITE_NAME,
       url: SITE_URL,
       email: 'info@luxpuntacana.com',
@@ -204,8 +156,10 @@ const structuredData = {
       priceRange: '$$',
       address: {
         '@type': 'PostalAddress',
+        streetAddress: 'Playa Macao',
         addressLocality: 'Punta Cana',
         addressRegion: 'La Altagracia',
+        postalCode: '23000',
         addressCountry: 'DO',
       },
       geo: {
@@ -218,6 +172,7 @@ const structuredData = {
         ratingValue: '4.8',
         reviewCount: '500',
         bestRating: '5',
+        worstRating: '1',
       },
       openingHoursSpecification: {
         '@type': 'OpeningHoursSpecification',
@@ -233,18 +188,65 @@ const structuredData = {
         opens: '09:00',
         closes: '18:00',
       },
+      sameAs: [
+        'https://www.instagram.com/luxpuntacana',
+        'https://www.facebook.com/luxpuntacana',
+        'https://www.tiktok.com/@luxpuntacana',
+      ],
     },
 
-    // 3. WebSite — enables sitelinks search box
+    // ─── 2. Product (wraps the tour for offer/price rich results) ──
+    // Google supports AggregateRating on Product, but we reference the
+    // business rating via the brand instead of duplicating it here.
+    {
+      '@type': 'Product',
+      '@id': PRODUCT_ID,
+      name: 'Sunset Horseback Riding Experience — Playa Macao',
+      description:
+        'A 2-hour guided horseback ride along Playa Macao beach and a scenic river trail at golden hour, with round-trip hotel transfers from Punta Cana resorts.',
+      image: OG_IMAGE,
+      url: SITE_URL,
+      brand: {
+        '@type': 'Brand',
+        name: SITE_NAME,
+      },
+      offers: [
+        {
+          '@type': 'Offer',
+          name: 'Classic Ride — Adult',
+          price: '65.00',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2025-01-01',
+          url: `${SITE_URL}/#booking`,
+          priceValidUntil: '2026-12-31',
+          seller: { '@id': BUSINESS_ID },
+        },
+        {
+          '@type': 'Offer',
+          name: 'Sunset Experience — Adult',
+          price: '75.00',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          validFrom: '2025-01-01',
+          url: `${SITE_URL}/#booking`,
+          priceValidUntil: '2026-12-31',
+          seller: { '@id': BUSINESS_ID },
+        },
+      ],
+    },
+
+    // ─── 3. WebSite ───────────────────────────────────────────
     {
       '@type': 'WebSite',
-      '@id': `${SITE_URL}/#website`,
+      '@id': WEBSITE_ID,
       url: SITE_URL,
       name: SITE_NAME,
-      publisher: { '@id': `${SITE_URL}/#business` },
+      publisher: { '@id': BUSINESS_ID },
+      inLanguage: ['en-US', 'es-DO'],
     },
 
-    // 4. BreadcrumbList — helps Google show breadcrumbs
+    // ─── 4. BreadcrumbList ────────────────────────────────────
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -254,10 +256,17 @@ const structuredData = {
           name: 'Home',
           item: SITE_URL,
         },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Horseback Riding',
+          item: `${SITE_URL}/horseback-riding`,
+        },
       ],
     },
 
-    // 5. FAQPage — can show FAQ rich results
+    // ─── 5. FAQPage ───────────────────────────────────────────
+    // No AggregateRating here — Google does NOT support it on FAQPage.
     {
       '@type': 'FAQPage',
       mainEntity: [
@@ -293,6 +302,22 @@ const structuredData = {
             text: 'Free cancellation up to 24 hours before the experience.',
           },
         },
+        {
+          '@type': 'Question',
+          name: 'What should I wear for the horseback ride?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Wear comfortable clothing and closed-toe shoes. Sunscreen and sunglasses are recommended.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Are children allowed on the tour?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Children aged 6 and older can participate. Younger children may ride with an adult on select horses — contact us for details.',
+          },
+        },
       ],
     },
   ],
@@ -310,6 +335,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        {/* JSON-LD — single script tag, single @graph, one AggregateRating */}
         <script
           type='application/ld+json'
           dangerouslySetInnerHTML={{
@@ -324,11 +350,11 @@ export default function RootLayout({
         />
         <Script id='google-analytics' strategy='afterInteractive'>
           {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-T3N16HEN6X');
-        `}
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-T3N16HEN6X');
+          `}
         </Script>
       </head>
       <body className='min-h-full flex flex-col'>{children}</body>
