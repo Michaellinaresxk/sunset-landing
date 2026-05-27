@@ -2,6 +2,12 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
+import Hotjar from '@hotjar/browser';
+
+const siteId = 6719650;
+const hotjarVersion = 6;
+
+Hotjar.init(siteId, hotjarVersion);
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -118,23 +124,6 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
 };
-
-// ── Structured Data (JSON-LD) ─────────────────────────────────
-//
-// Google-supported rich result types used here:
-//   1. LocalBusiness   → star rating, map pack, knowledge panel
-//   2. Product         → price, availability, review stars in SERPs
-//   3. FAQPage         → expandable FAQ rich results
-//   4. BreadcrumbList  → breadcrumb trail in SERPs
-//   5. WebSite         → sitelinks search box
-//
-// Rules followed:
-//   • ONE AggregateRating per page, on LocalBusiness only
-//   • Product type wraps the tour for price/offer rich results
-//   • @id used for cross-referencing entities without duplication
-//   • No rating on FAQPage (unsupported by Google)
-//   • validFrom uses a fixed launch date, not new Date()
-//
 
 const BUSINESS_ID = `${SITE_URL}/#business`;
 const PRODUCT_ID = `${SITE_URL}/#product`;
@@ -329,6 +318,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteId = 6719650;
+  const hotjarVersion = 6;
+
+  Hotjar.init(siteId, hotjarVersion);
+
   return (
     <html
       lang='en'
