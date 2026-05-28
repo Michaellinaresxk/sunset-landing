@@ -1,128 +1,159 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Flame, Truck, Calendar } from 'lucide-react';
+import {
+  Truck,
+  ShieldCheck,
+  CalendarDays,
+  CreditCard,
+  Check,
+} from 'lucide-react';
+import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
+import GradientButton from '@/src/components/ui/GradientButton';
+import { SectionProps } from '@/src/types';
 
-const PROMO_BG =
-  'https://images.pexels.com/photos/269583/pexels-photo-269583.jpeg?auto=compress&cs=tinysrgb&w=1920';
-interface PromoBannerProps {
-  onBookClick: () => void;
-}
+const VALUE_PROPS = [
+  {
+    icon: Truck,
+    title: 'Hotel Pickup & Drop-off',
+    desc: 'We pick you up from your Bávaro or Punta Cana hotel and bring you back — included in the price.',
+    highlight: true,
+  },
+  {
+    icon: CreditCard,
+    title: 'Book Direct — Best Price',
+    desc: 'No middleman fees. You pay less than Viator or GetYourGuide for the same experience.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Free Cancellation',
+    desc: 'Changed your plans? Cancel up to 24 hours before for a full refund, no questions asked.',
+  },
+  {
+    icon: CalendarDays,
+    title: 'Available Every Day',
+    desc: 'No blackout dates — ride any day of the week, including holidays. Just pick your date.',
+  },
+];
 
-const getTimeUntilMidnight = () => {
-  const now = new Date();
-  const midnight = new Date(now);
-  midnight.setHours(24, 0, 0, 0);
+const VALUE_BG =
+  'https://res.cloudinary.com/ddg92xar5/image/upload/f_auto,q_auto,w_1920/v1755946811/image00043_s1jla3.jpg';
 
-  const diff = midnight.getTime() - now.getTime();
-
-  return {
-    hours: Math.floor(diff / (1000 * 60 * 60)),
-    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-    seconds: Math.floor((diff % (1000 * 60)) / 1000),
-  };
-};
-
-const pad = (n: number) => String(n).padStart(2, '0');
-
-function CountdownUnit({ value, label }: { value: string; label: string }) {
+export default function ValueBanner({ onBookClick }: SectionProps) {
   return (
-    <div className='flex flex-col items-center'>
-      <div className='relative w-16 h-20 sm:w-20 sm:h-24 md:w-24 md:h-28 rounded-2xl bg-black/30 border border-white/10 flex items-center justify-center backdrop-blur-md'>
-        <span className='text-3xl sm:text-4xl md:text-5xl font-light text-white tabular-nums font-mono tracking-tight'>
-          {value}
-        </span>
-        <div className='absolute inset-x-0 top-1/2 h-px bg-white/5' />
-      </div>
-      <span className='text-[10px] sm:text-xs text-white/40 uppercase tracking-widest mt-2 font-light'>
-        {label}
-      </span>
-    </div>
-  );
-}
+    <SectionReveal className='relative py-20 md:py-32 overflow-hidden'>
+      {(isVisible) => (
+        <>
+          {/* Background */}
+          <div className='absolute inset-0'>
+            <img src={VALUE_BG} alt='' className='w-full h-full object-cover' />
+            <div className='absolute inset-0 bg-zinc-950/80' />
+            <div className='absolute inset-0 bg-gradient-to-b from-zinc-950/60 via-zinc-950/40 to-zinc-950/80' />
+          </div>
 
-export default function PromoBanner({ onBookClick }: PromoBannerProps) {
-  const [time, setTime] = useState(getTimeUntilMidnight);
+          {/* Top/bottom lines */}
+          <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-400/30 to-transparent' />
+          <div className='absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent' />
 
-  useEffect(() => {
-    const interval = setInterval(() => setTime(getTimeUntilMidnight()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <section className='relative py-20 md:py-32 overflow-hidden'>
-      {/* Background image */}
-      <div className='absolute inset-0'>
-        <img src={PROMO_BG} alt='' className='w-full h-full object-cover' />
-        <div className='absolute inset-0 bg-zinc-950/75' />
-        <div className='absolute inset-0 bg-gradient-to-b from-zinc-950/60 via-zinc-950/40 to-zinc-950/80' />
-      </div>
-
-      {/* Amber glow effects */}
-      <div className='absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(251,191,36,0.15),transparent_60%)]' />
-      <div className='absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,rgba(234,88,12,0.1),transparent_50%)]' />
-      <div className='absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent' />
-      <div className='absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/40 to-transparent' />
-
-      <div className='relative z-10 max-w-3xl mx-auto px-4 md:px-8'>
-        <div className='bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-10 md:p-14 border border-white/20 shadow-xl'>
-          <div className='flex flex-col items-center text-center'>
-            {/* Badge */}
-            <div className='inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/25 backdrop-blur-sm mb-8 md:mb-10'>
-              <Flame className='w-4 h-4 text-orange-400 animate-pulse' />
-              <span className='text-orange-300 text-xs sm:text-sm font-light tracking-wider uppercase'>
-                Limited Offer
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight text-white tracking-tight leading-tight mb-3 md:mb-4'>
-              Free Transport
-            </h2>
-
-            {/* Subheadline */}
-            <div className='flex items-center gap-2.5 mb-10 md:mb-14'>
-              <Truck className='w-4 h-4 md:w-5 md:h-5 text-amber-400/70' />
-              <p className='text-sm sm:text-base md:text-lg text-white/60 font-light'>
-                Book for{' '}
-                <span className='text-amber-300 font-normal'>
-                  2 or more guests
-                </span>{' '}
-                today and pickup is on us
+          <div className='relative z-10 max-w-5xl mx-auto px-4 md:px-8'>
+            {/* Header */}
+            <RevealItem
+              isVisible={isVisible}
+              className='text-center mb-12 md:mb-16'
+            >
+              <h2 className='text-3xl sm:text-4xl md:text-5xl font-extralight text-white tracking-tight leading-tight mb-4'>
+                Why Book Direct With Us
+              </h2>
+              <p className='text-sm sm:text-base md:text-lg text-white/50 font-light max-w-2xl mx-auto'>
+                Skip the booking platforms — get a better price, better service,
+                and everything included
               </p>
-            </div>
+            </RevealItem>
 
-            {/* Countdown */}
-            <div className='flex items-center gap-3 sm:gap-4 md:gap-5 mb-10 md:mb-14'>
-              <CountdownUnit value={pad(time.hours)} label='Hours' />
-              <span className='text-2xl md:text-3xl text-white/20 font-light -mt-6'>
-                :
-              </span>
-              <CountdownUnit value={pad(time.minutes)} label='Minutes' />
-              <span className='text-2xl md:text-3xl text-white/20 font-light -mt-6'>
-                :
-              </span>
-              <CountdownUnit value={pad(time.seconds)} label='Seconds' />
+            {/* Value props grid */}
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-12 md:mb-16'>
+              {VALUE_PROPS.map((prop, i) => {
+                const Icon = prop.icon;
+                return (
+                  <RevealItem key={i} isVisible={isVisible} delay={i * 120}>
+                    <div
+                      className={`rounded-2xl p-5 md:p-6 border backdrop-blur-sm transition-all duration-500 h-full ${
+                        prop.highlight
+                          ? 'bg-emerald-500/[0.08] border-emerald-500/20'
+                          : 'bg-white/[0.05] border-white/10'
+                      }`}
+                    >
+                      <div className='flex items-start gap-4'>
+                        <div
+                          className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                            prop.highlight
+                              ? 'bg-emerald-500/20'
+                              : 'bg-amber-500/10'
+                          }`}
+                        >
+                          <Icon
+                            className={`w-5 h-5 ${
+                              prop.highlight
+                                ? 'text-emerald-400'
+                                : 'text-amber-400'
+                            }`}
+                          />
+                        </div>
+                        <div className='flex-1 min-w-0'>
+                          <div className='flex items-center gap-2 mb-1.5'>
+                            <h3
+                              className={`text-sm md:text-base font-medium ${
+                                prop.highlight
+                                  ? 'text-emerald-300'
+                                  : 'text-white'
+                              }`}
+                            >
+                              {prop.title}
+                            </h3>
+                            {prop.highlight && (
+                              <span className='px-2 py-0.5 bg-emerald-500/20 text-emerald-300 text-[10px] font-medium rounded-full'>
+                                INCLUDED
+                              </span>
+                            )}
+                          </div>
+                          <p className='text-xs md:text-sm text-white/40 font-light leading-relaxed'>
+                            {prop.desc}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </RevealItem>
+                );
+              })}
             </div>
-
-            {/* Offer expiry label */}
-            <p className='text-xs sm:text-sm text-white/40 font-light mb-8 md:mb-10'>
-              Offer resets daily at midnight — don&apos;t miss today&apos;s
-              window
-            </p>
 
             {/* CTA */}
-            <button
-              onClick={onBookClick}
-              className='group relative overflow-hidden rounded-full bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200 text-zinc-950 font-medium px-10 sm:px-14 py-4 sm:py-5 text-base sm:text-lg transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/40 hover:scale-105 inline-flex items-center justify-center gap-3'
+            <RevealItem
+              isVisible={isVisible}
+              delay={500}
+              className='text-center'
             >
-              <Calendar className='w-5 h-5 relative z-10' />
-              <span className='relative z-10'>Claim Free Transport</span>
-              <div className='absolute inset-0 bg-gradient-to-r from-orange-300 via-amber-200 to-orange-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500' />
-            </button>
+              <GradientButton onClick={onBookClick} showArrow>
+                Book Now — From $65/person
+              </GradientButton>
+
+              <div className='flex items-center justify-center gap-4 mt-6 text-xs text-white/30'>
+                <span className='flex items-center gap-1'>
+                  <Check className='w-3 h-3 text-emerald-400' />
+                  Secure payment
+                </span>
+                <span className='flex items-center gap-1'>
+                  <Check className='w-3 h-3 text-emerald-400' />
+                  Instant confirmation
+                </span>
+                <span className='flex items-center gap-1'>
+                  <Check className='w-3 h-3 text-emerald-400' />
+                  24h free cancellation
+                </span>
+              </div>
+            </RevealItem>
           </div>
-        </div>
-      </div>
-    </section>
+        </>
+      )}
+    </SectionReveal>
   );
 }

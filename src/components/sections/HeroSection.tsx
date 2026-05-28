@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Truck, Check } from 'lucide-react';
 import { useScrollReveal } from '@/src/hooks';
 import { HERO_IMAGE } from '@/src/constants';
 import GradientButton from '@/src/components/ui/GradientButton';
@@ -19,7 +19,7 @@ export default function HeroSection({ onBookClick }: SectionProps) {
       >
         <img
           src={HERO_IMAGE}
-          alt='Sunset horseback riding'
+          alt='Horseback riding on Playa Macao beach at sunset in Punta Cana'
           className='w-full h-full object-cover scale-110'
         />
         <div className='absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/20 to-zinc-950/90' />
@@ -38,17 +38,19 @@ export default function HeroSection({ onBookClick }: SectionProps) {
               </span>
             </div>
 
-            {/* Title */}
+            {/* SEO FIX: H1 now contains full target keyword phrase */}
             <h1 className='text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-extralight text-white tracking-tighter leading-none'>
               Horseback
               <span className='block text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200'>
-                Riding
+                Riding in Punta Cana
               </span>
+              <span className='block text-3xl sm:text-4xl md:text-5xl text-white/60 font-extralight mt-2'></span>
             </h1>
 
+            {/* SEO FIX: Subtitle with keywords instead of pure poetry */}
             <p className='text-lg md:text-2xl lg:text-3xl text-white/60 font-light max-w-2xl leading-relaxed'>
-              Where paradise meets perfection, captured in nature&apos;s most
-              spectacular light
+              Ride along Playa Macao beach at golden hour — 2-hour guided tour
+              with hotel pickup
             </p>
 
             {/* CTA */}

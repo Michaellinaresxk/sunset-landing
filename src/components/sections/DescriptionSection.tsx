@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 
+// SEO: Moved paragraphs to constants for easier management,
+// but keeping inline here so the component is self-contained.
 const DESCRIPTION_PARAGRAPHS = [
-  'Explore the breathtaking beauty of Playa Macao on horseback as you ride along its pristine shores. Discover a scenic river and connect with nature on this guided horse-riding tour with transfers from Punta Cana.',
-  'On arrival, meet your guide and be paired with a horse that matches your skill level. Get equipped with all the necessary safety equipment, and step up to the saddle. No prior experience is required, as your guide will provide support and instruction to make this experience suitable for all skill levels.',
-  'Ride along the stunning Playa Macao, where golden sands meet the blue waters, offering a picturesque backdrop to capture timeless vacation memories. Then, continue your journey towards a serene river and admire the crystal-clear waters.',
-  'Create unforgettable memories and connect with nature as you explore your lush environment on horseback. At the end of your tour, enjoy a return transfer back to your hotel.',
+  'Explore the breathtaking beauty of Playa Macao on horseback as you ride along its pristine shores. This 2-hour guided horseback riding tour in Punta Cana includes round-trip hotel pickup from Bávaro, Cap Cana, and surrounding resort areas — one of the top-rated things to do in Punta Cana for couples, families, and groups.',
+  'On arrival at the ranch, meet your bilingual guide and be paired with a horse that matches your skill level. Get equipped with all necessary safety gear and step into the saddle. No prior horseback riding experience is required — our guides provide hands-on instruction suitable for complete beginners and experienced riders alike.',
+  'Ride along the stunning Playa Macao, where golden sands meet turquoise Caribbean waters, offering a breathtaking backdrop for your vacation memories. Continue your journey through a scenic river trail surrounded by tropical vegetation and Dominican countryside.',
+  'As the sun sets over the Atlantic, enjoy the golden hour from horseback — one of the most unforgettable sunset experiences in the Dominican Republic. At the end of your tour, enjoy a complimentary return transfer back to your hotel.',
 ];
 
 export default function DescriptionSection() {

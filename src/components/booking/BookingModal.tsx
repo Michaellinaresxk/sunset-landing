@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   X,
   Calendar,
@@ -28,11 +28,7 @@ import PickupLocationInput from '@/src/components/PickupLocationInput';
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  promoApplied?: boolean;
 }
-
-const TRANSPORT_VALUE = 126;
-const MIN_GUESTS_FOR_PROMO = 2;
 
 const getMinBookingDate = (): string => new Date().toISOString().split('T')[0];
 
@@ -61,11 +57,7 @@ const EXPERIENCE_OPTIONS: {
   },
 ];
 
-export default function BookingModal({
-  isOpen,
-  onClose,
-  promoApplied = false,
-}: BookingModalProps) {
+export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [formData, setFormData] = useState<BookingFormData>({
     experience: 'sunset',
     date: '',
@@ -79,18 +71,9 @@ export default function BookingModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTimeSlotOpen, setIsTimeSlotOpen] = useState(false);
 
-  useEffect(() => {
-    if (promoApplied && formData.adults < MIN_GUESTS_FOR_PROMO) {
-      setFormData((prev) => ({ ...prev, adults: MIN_GUESTS_FOR_PROMO }));
-    }
-  }, [promoApplied]);
-
   const pricing = useMemo(() => calculatePricing(formData), [formData]);
   const tier = PRICING[formData.experience];
   const availableSlots = TIME_SLOTS[formData.experience];
-
-  const totalGuests = formData.adults + formData.children;
-  const isPromoEligible = promoApplied && totalGuests >= MIN_GUESTS_FOR_PROMO;
 
   const updateField = useCallback(
     (field: keyof BookingFormData, value: number | string) => {
@@ -110,7 +93,7 @@ export default function BookingModal({
     setFormData((prev) => ({
       ...prev,
       experience: type,
-      timeSlot: '', // Reset — different slots per tier
+      timeSlot: '',
     }));
     setIsTimeSlotOpen(false);
   }, []);
@@ -140,10 +123,7 @@ export default function BookingModal({
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          formData,
-          promoApplied: isPromoEligible,
-        }),
+        body: JSON.stringify({ formData }),
       });
 
       const data = await response.json();
@@ -251,51 +231,26 @@ export default function BookingModal({
               </div>
             </div>
 
-            {/* Promo Banner */}
-            {promoApplied && (
-              <div
-                className={`rounded-xl p-4 border transition-all duration-500 ${
-                  isPromoEligible
-                    ? 'bg-emerald-500/10 border-emerald-500/20'
-                    : 'bg-amber-500/10 border-amber-500/20'
-                }`}
-              >
-                <div className='flex items-center gap-3'>
-                  <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      isPromoEligible ? 'bg-emerald-500/20' : 'bg-amber-500/20'
-                    }`}
-                  >
-                    {isPromoEligible ? (
-                      <Check className='w-5 h-5 text-emerald-400' />
-                    ) : (
-                      <Truck className='w-5 h-5 text-amber-400' />
-                    )}
+            {/* Transport Included — single clear message, no promo game */}
+            <div className='rounded-xl p-4 border bg-emerald-500/[0.06] border-emerald-500/15'>
+              <div className='flex items-center gap-3'>
+                <div className='w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0'>
+                  <Truck className='w-5 h-5 text-emerald-400' />
+                </div>
+                <div className='flex-1 min-w-0'>
+                  <div className='text-sm font-medium text-emerald-300'>
+                    Hotel Pickup & Drop-off Included
                   </div>
-                  <div className='flex-1 min-w-0'>
-                    <div
-                      className={`text-sm font-medium ${
-                        isPromoEligible ? 'text-emerald-300' : 'text-amber-300'
-                      }`}
-                    >
-                      {isPromoEligible
-                        ? 'Free Transport Applied!'
-                        : 'Free Transport — Add 1 more guest'}
-                    </div>
-                    <div className='text-xs text-white/40 mt-0.5'>
-                      {isPromoEligible
-                        ? `You're saving $${TRANSPORT_VALUE} on pickup transport`
-                        : `Book ${MIN_GUESTS_FOR_PROMO}+ guests to unlock free pickup transport`}
-                    </div>
+                  <div className='text-xs text-white/40 mt-0.5'>
+                    We pick you up from your hotel and bring you back — no extra
+                    charge
                   </div>
-                  {isPromoEligible && (
-                    <div className='text-sm font-medium text-emerald-400 flex-shrink-0'>
-                      −${TRANSPORT_VALUE}
-                    </div>
-                  )}
+                </div>
+                <div className='text-sm font-medium text-emerald-400 flex-shrink-0'>
+                  FREE
                 </div>
               </div>
-            )}
+            </div>
 
             {/* Date */}
             <div>
@@ -455,52 +410,36 @@ export default function BookingModal({
             {/* Price Summary */}
             <PriceSummary formData={formData} pricing={pricing} />
 
-            {/* Transport line */}
-            {promoApplied && (
-              <div className='flex justify-between text-sm'>
-                <span className='flex items-center gap-2 text-white/60'>
-                  <Truck className='w-3.5 h-3.5' />
-                  Pickup Transport
-                </span>
-                {isPromoEligible ? (
-                  <span className='flex items-center gap-2'>
-                    <span className='text-white/30 line-through'>
-                      ${TRANSPORT_VALUE}
-                    </span>
-                    <span className='text-emerald-400 font-medium'>FREE</span>
-                  </span>
-                ) : (
-                  <span className='text-white/40'>${TRANSPORT_VALUE}</span>
-                )}
-              </div>
-            )}
-
             {/* Total */}
             <div className='flex justify-between items-center pt-4 border-t border-white/10'>
               <span className='text-white/60 text-sm uppercase tracking-wide'>
                 Total
               </span>
-              <div className='flex items-baseline gap-3'>
-                {isPromoEligible && (
-                  <span className='text-sm text-emerald-400 font-light'>
-                    You save ${TRANSPORT_VALUE}
-                  </span>
-                )}
-                <span className='text-3xl font-light text-white'>
-                  ${pricing.total.toFixed(2)}
-                </span>
-              </div>
+              <span className='text-3xl font-light text-white'>
+                ${pricing.total.toFixed(2)}
+              </span>
             </div>
 
-            {/* Cancellation policy */}
-            <div className='flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/10'>
-              <Check className='w-4 h-4 text-emerald-400 flex-shrink-0' />
-              <p className='text-xs text-white/50 font-light'>
-                <span className='text-emerald-400 font-medium'>
-                  Free cancellation
-                </span>{' '}
-                up to 24 hours before the experience
-              </p>
+            {/* Trust signals */}
+            <div className='flex flex-col gap-2'>
+              <div className='flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/10'>
+                <Check className='w-4 h-4 text-emerald-400 flex-shrink-0' />
+                <p className='text-xs text-white/50 font-light'>
+                  <span className='text-emerald-400 font-medium'>
+                    Free cancellation
+                  </span>{' '}
+                  up to 24 hours before the experience
+                </p>
+              </div>
+              <div className='flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/10'>
+                <Truck className='w-4 h-4 text-emerald-400 flex-shrink-0' />
+                <p className='text-xs text-white/50 font-light'>
+                  <span className='text-emerald-400 font-medium'>
+                    Hotel pickup & drop-off
+                  </span>{' '}
+                  included at no extra charge
+                </p>
+              </div>
             </div>
 
             {errors.submit && (
