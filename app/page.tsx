@@ -19,21 +19,17 @@ import DescriptionSection from '@/src/components/sections/DescriptionSection';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [promoApplied, setPromoApplied] = useState(false);
 
   const handleBookNow = useCallback(() => {
-    setPromoApplied(false);
     setIsModalOpen(true);
   }, []);
 
   const handlePromoBook = useCallback(() => {
-    setPromoApplied(true);
     setIsModalOpen(true);
   }, []);
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
-    setPromoApplied(false);
   }, []);
 
   return (
@@ -52,11 +48,7 @@ export default function HomePage() {
       <UrgencySection />
 
       <FloatingBookButton />
-      <BookingModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        promoApplied={promoApplied}
-      />
+      <BookingModal isOpen={isModalOpen} onClose={handleCloseModal} />
     </main>
   );
 }
