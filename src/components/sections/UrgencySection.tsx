@@ -1,4 +1,3 @@
-// src/components/sections/UrgencySection.tsx
 'use client';
 
 import { useState } from 'react';

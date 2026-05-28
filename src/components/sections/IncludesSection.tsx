@@ -3,20 +3,24 @@
 import {
   MapPin,
   Waves,
-  ShoppingBag,
   Truck,
-  Camera,
   Shield,
+  ShieldCheck,
+  Coffee,
 } from 'lucide-react';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 
 const INCLUDES = [
-  { label: 'Round trip transportation (limited offer)', icon: Truck },
+  {
+    label: 'Round-trip hotel pickup & drop-off',
+    icon: Truck,
+    highlight: true,
+  },
   { label: 'Playa Macao beach ride', icon: MapPin },
-  { label: 'Scenic river trail', icon: Waves },
-  { label: 'Shopping stop', icon: ShoppingBag },
-  { label: 'Professional photo (not included)', icon: Camera },
-  { label: 'Professional guide', icon: Shield },
+  { label: 'Scenic river & nature trail', icon: Waves },
+  { label: 'Dominican coffee & mamajuana tasting', icon: Coffee },
+  { label: 'Professional bilingual guide', icon: Shield },
+  { label: 'Safety equipment & instruction', icon: ShieldCheck },
 ];
 
 export default function IncludesSection() {
@@ -38,11 +42,35 @@ export default function IncludesSection() {
                 const Icon = item.icon;
                 return (
                   <RevealItem key={i} isVisible={isVisible} delay={i * 80}>
-                    <div className='flex flex-col items-center text-center gap-2 p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/[0.03] border border-white/5 h-full'>
-                      <div className='w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-amber-500/10 border border-amber-500/15 flex items-center justify-center flex-shrink-0'>
-                        <Icon className='w-4 h-4 text-amber-400' />
+                    <div
+                      className={`flex flex-col items-center text-center gap-2 p-3 md:p-4 rounded-xl md:rounded-2xl h-full border ${
+                        item.highlight
+                          ? 'bg-emerald-500/[0.06] border-emerald-500/15'
+                          : 'bg-white/[0.03] border-white/5'
+                      }`}
+                    >
+                      <div
+                        className={`w-9 h-9 md:w-10 md:h-10 rounded-lg md:rounded-xl flex items-center justify-center flex-shrink-0 ${
+                          item.highlight
+                            ? 'bg-emerald-500/15 border border-emerald-500/20'
+                            : 'bg-amber-500/10 border border-amber-500/15'
+                        }`}
+                      >
+                        <Icon
+                          className={`w-4 h-4 ${
+                            item.highlight
+                              ? 'text-emerald-400'
+                              : 'text-amber-400'
+                          }`}
+                        />
                       </div>
-                      <span className='text-[11px] md:text-sm text-white/60 font-light leading-snug'>
+                      <span
+                        className={`text-[11px] md:text-sm font-light leading-snug ${
+                          item.highlight
+                            ? 'text-emerald-300/80'
+                            : 'text-white/60'
+                        }`}
+                      >
                         {item.label}
                       </span>
                     </div>

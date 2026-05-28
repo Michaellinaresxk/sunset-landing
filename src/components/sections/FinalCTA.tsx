@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar } from 'lucide-react';
+import { Calendar, Truck, Check, ShieldCheck } from 'lucide-react';
 import { CTA_IMAGE } from '@/src/constants';
 import { SectionProps } from '@/src/types';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
@@ -14,7 +14,7 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
           <div className='absolute inset-0'>
             <img
               src={CTA_IMAGE}
-              alt='Sunset horseback riding'
+              alt='Sunset horseback riding tour on Playa Macao beach Punta Cana'
               className='w-full h-full object-cover'
             />
             <div className='absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/60 to-zinc-950/90' />
@@ -29,10 +29,25 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
                 </span>
               </h2>
 
-              <p className='text-lg md:text-2xl lg:text-3xl text-white/60 font-light mb-12 md:mb-16 max-w-3xl mx-auto leading-relaxed'>
-                Limited availability. Book your exclusive golden hour experience
-                today.
+              <p className='text-lg md:text-2xl lg:text-3xl text-white/60 font-light mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed'>
+                Book your unforgettable golden hour horseback ride in Punta Cana
               </p>
+
+              {/* CONVERSION: Trust signals before the CTA button */}
+              <div className='flex flex-wrap items-center justify-center gap-3 mb-10 md:mb-14 text-sm'>
+                <span className='inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-white/80'>
+                  From <span className='text-amber-300 font-medium'>$65</span>
+                  /person
+                </span>
+                <span className='inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'>
+                  <Truck className='w-3.5 h-3.5' />
+                  Hotel Pickup Included
+                </span>
+                <span className='inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60'>
+                  <ShieldCheck className='w-3.5 h-3.5' />
+                  Free Cancellation 24h
+                </span>
+              </div>
 
               <GradientButton
                 onClick={onBookClick}
