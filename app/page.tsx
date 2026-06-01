@@ -2,7 +2,7 @@
 
 import {
   HeroSection,
-  StatsSection,
+  ReviewsSection,
   ExperienceSection,
   UrgencySection,
   FinalCTA,
@@ -42,12 +42,12 @@ export default function HomePage() {
       <ImageGallery />
       <IncludesSection />
       <PromoBanner onBookClick={handleBookNow} />
+      <ReviewsSection />
+      <FinalCTA onBookClick={handleBookNow} />
       <DescriptionSection />
+      <SafetySection />
       {/* <VideoGallery /> */}
       <ExperienceSection />
-      <SafetySection />
-      <StatsSection />
-      <FinalCTA onBookClick={handleBookNow} />
       <UrgencySection />
 
       <FloatingBookButton />
