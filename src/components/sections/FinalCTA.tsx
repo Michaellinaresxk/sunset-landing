@@ -23,9 +23,9 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
           <div className='relative z-10 max-w-5xl mx-auto px-4 md:px-8 text-center'>
             <RevealItem isVisible={isVisible}>
               <h2 className='text-5xl md:text-8xl lg:text-9xl font-extralight text-white mb-8 md:mb-12 tracking-tighter leading-none'>
-                Your Moment
+                Ready to book your
                 <span className='block text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-orange-300 to-amber-200 mt-4'>
-                  Awaits
+                  spot?
                 </span>
               </h2>
 

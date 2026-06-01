@@ -24,7 +24,7 @@ export default function ExperienceSection() {
                 The Journey
               </h2>
               <p className='text-base md:text-lg text-white/70 font-light'>
-                Every moment thoughtfully orchestrated
+                Your Moment Awaits — A Sunset Horseback Ride Like No Other
               </p>
             </RevealItem>
 
