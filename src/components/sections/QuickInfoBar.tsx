@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, CalendarDays, Users, Truck, DollarSign } from 'lucide-react';
+import { Clock, CalendarDays, Users, DollarSign, Car } from 'lucide-react';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 
 const INFO_ITEMS = [
@@ -20,7 +20,7 @@ const INFO_ITEMS = [
     value: 'From 7 years',
   },
   {
-    icon: Truck,
+    icon: Car,
     title: 'Transport',
     value: 'Free hotel pickup',
     highlight: true,

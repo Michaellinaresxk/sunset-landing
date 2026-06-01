@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Truck, Check, ShieldCheck } from 'lucide-react';
+import { Calendar, Car, ShieldCheck } from 'lucide-react';
 import { CTA_IMAGE } from '@/src/constants';
 import { SectionProps } from '@/src/types';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
@@ -40,7 +40,7 @@ export default function FinalCTA({ onBookClick }: SectionProps) {
                   /person
                 </span>
                 <span className='inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'>
-                  <Truck className='w-3.5 h-3.5' />
+                  <Car className='w-3.5 h-3.5' />
                   Hotel Pickup Included
                 </span>
                 <span className='inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60'>

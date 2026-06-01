@@ -13,13 +13,13 @@ import {
   AlertTriangle,
   CreditCard,
   Loader2,
-  Truck,
   Check,
   CheckCircle,
   ChevronDown,
   Sun,
   Sunrise,
   ShieldCheck,
+  Car,
 } from 'lucide-react';
 import { BookingFormData, FormErrors, ExperienceType } from '@/src/types';
 import { PRICING, TIME_SLOTS } from '@/src/constants';
@@ -242,7 +242,7 @@ export default function BookingPage() {
             <div className='rounded-xl p-4 border bg-emerald-500/[0.06] border-emerald-500/15'>
               <div className='flex items-center gap-3'>
                 <div className='w-10 h-10 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0'>
-                  <Truck className='w-5 h-5 text-emerald-400' />
+                  <Car className='w-5 h-5 text-emerald-400' />
                 </div>
                 <div className='flex-1 min-w-0'>
                   <div className='text-sm font-medium text-emerald-300'>

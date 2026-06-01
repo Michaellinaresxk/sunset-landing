@@ -1,19 +1,12 @@
 'use client';
 
-import {
-  MapPin,
-  Waves,
-  Truck,
-  Shield,
-  ShieldCheck,
-  Coffee,
-} from 'lucide-react';
+import { MapPin, Waves, Shield, ShieldCheck, Coffee, Car } from 'lucide-react';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 
 const INCLUDES = [
   {
     label: 'Round-trip hotel pickup & drop-off',
-    icon: Truck,
+    icon: Car,
     highlight: true,
   },
   { label: 'Playa Macao beach ride', icon: MapPin },

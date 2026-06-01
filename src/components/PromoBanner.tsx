@@ -1,11 +1,11 @@
 'use client';
 
 import {
-  Truck,
   ShieldCheck,
   CalendarDays,
   CreditCard,
   Check,
+  Car,
 } from 'lucide-react';
 import SectionReveal, { RevealItem } from '@/src/components/ui/SectionReveal';
 import GradientButton from '@/src/components/ui/GradientButton';
@@ -13,7 +13,7 @@ import { SectionProps } from '@/src/types';
 
 const VALUE_PROPS = [
   {
-    icon: Truck,
+    icon: Car,
     title: 'Hotel Pickup & Drop-off',
     desc: 'We pick you up from your Bávaro or Punta Cana hotel and bring you back — included in the price.',
     highlight: true,

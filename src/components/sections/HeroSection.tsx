@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronDown, Truck, Check, ShieldCheck } from 'lucide-react';
+import { Car, ChevronDown, ShieldCheck } from 'lucide-react';
 import { useScrollReveal } from '@/src/hooks';
 import { HERO_IMAGE } from '@/src/constants';
 import GradientButton from '@/src/components/ui/GradientButton';
@@ -72,7 +72,7 @@ export default function HeroSection({ onBookClick }: SectionProps) {
                   From $65 / person
                 </span>
                 <span className='inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs'>
-                  <Truck className='w-3 h-3' />
+                  <Car className='w-3 h-3' />
                   Hotel pickup included
                 </span>
                 <span className='inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/50 text-xs'>
