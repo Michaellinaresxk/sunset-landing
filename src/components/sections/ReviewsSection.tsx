@@ -14,7 +14,7 @@ const REVIEWS = [
     date: 'Jan 2026',
     stars: 5,
     initials: 'AG',
-    country: '🇺🇸',
+    country: '🇨🇴',
     text: 'Pasamos un día increíble con Lux Punta Cana, éramos toda la familia y desde el primer momento nos hicieron sentir súper cómodos. Todo estuvo perfectamente organizado. Los lugares que visitamos fueron preciosos y el trato del equipo fue excelente, los niños disfrutaron muchísimo. Se nota que hacen su trabajo con pasión y atención al detalle. Sin duda volveremos.',
   },
   {
@@ -179,7 +179,7 @@ export default function ReviewsSection() {
                       What Our Guests Say
                     </h2>
                     <p className='text-white/40 font-light text-sm'>
-                      Real reviews from Google — no filters, no edits
+                      Words from riders who &apos; ve been on the trail
                     </p>
                   </div>
 
@@ -198,7 +198,7 @@ export default function ReviewsSection() {
                       </div>
                       <div className='pl-3 border-l border-amber-500/15'>
                         <div className='text-xs text-white/40 font-light'>
-                          {REVIEWS.length}+ reviews
+                          reviews from
                         </div>
                         <div className='text-xs text-amber-400/60 font-light mt-0.5'>
                           Google
