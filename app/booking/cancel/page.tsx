@@ -1,5 +1,6 @@
 'use client';
 
+import Footer from '@/src/components/Footer';
 import { XCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -30,6 +31,7 @@ export default function BookingCancelPage() {
           </Link>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

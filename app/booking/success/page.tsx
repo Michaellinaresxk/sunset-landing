@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { CheckCircle, Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import Footer from '@/src/components/Footer';
 
 declare global {
   interface Window {
@@ -64,6 +65,7 @@ function SuccessContent() {
           <ArrowRight className='w-4 h-4' />
         </Link>
       </div>
+      <Footer />
     </main>
   );
 }

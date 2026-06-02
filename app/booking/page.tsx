@@ -27,6 +27,7 @@ import { calculatePricing } from '@/src/utils/pricing';
 import ParticipantCounter from '@/src/components/ui/ParticipantCounter';
 import PriceSummary from '@/src/components/booking/PriceSummary';
 import PickupLocationInput from '@/src/components/PickupLocationInput';
+import Footer from '@/src/components/Footer';
 
 // ─── Constants ────────────────────────────────────────────────
 
@@ -507,6 +508,7 @@ export default function BookingPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

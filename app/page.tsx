@@ -15,6 +15,7 @@ import QuickInfoBar from '@/src/components/sections/QuickInfoBar';
 import SafetySection from '@/src/components/sections/SafetySection';
 import IncludesSection from '@/src/components/sections/IncludesSection';
 import DescriptionSection from '@/src/components/sections/DescriptionSection';
+import Footer from '@/src/components/Footer';
 
 export default function HomePage() {
   // const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,6 +52,7 @@ export default function HomePage() {
       <UrgencySection />
 
       <FloatingBookButton />
+      <Footer />
       {/* <BookingModal isOpen={isModalOpen} onClose={handleCloseModal} /> */}
     </main>
   );
