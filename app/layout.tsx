@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Script from 'next/script';
+import { ScrollToHashHandler } from '@/src/hooks/useScrollToHash';
 
 // ── Fonts ─────────────────────────────────────────────────────
 const geistSans = Geist({
@@ -409,6 +410,7 @@ export default function RootLayout({
       </head>
 
       <body className='min-h-full flex flex-col'>
+        <ScrollToHashHandler />
         {children}
 
         {/* Google Analytics + Google Ads */}
