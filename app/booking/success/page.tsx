@@ -1,13 +1,30 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle, Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
+declare global {
+  interface Window {
+    gtag: (...args: unknown[]) => void;
+  }
+}
+
 function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
+  const amount = Number(searchParams.get('amount') ?? 0);
+
+  useEffect(() => {
+    if (!sessionId || typeof window.gtag !== 'function') return;
+    window.gtag('event', 'purchase', {
+      transaction_id: sessionId,
+      value: amount,
+      currency: 'USD',
+    });
+  }, [sessionId, amount]);
 
   return (
     <main className='min-h-screen bg-zinc-950 flex items-center justify-center px-4'>

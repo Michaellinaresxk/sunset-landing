@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { DEFAULT_PROVIDER } from '@/src/lib/payments/types';
 import { getPaymentProvider } from '@/src/lib/payments/registry';
 import type { BookingFormData } from '@/src/types';
+import { calculatePricing } from '@/src/utils/pricing';
 import {
   buildLineItems,
   buildCheckoutMetadata,
@@ -30,13 +31,15 @@ export async function POST(request: NextRequest) {
     const origin = request.nextUrl.origin;
     const lineItems = buildLineItems(formData);
     const metadata = buildCheckoutMetadata(formData);
+    const { total } = calculatePricing(formData);
 
-    // ── Create session via provider (controlled by PAYMENT_PROVIDER env var) ──
+    // ── Create session via provider ───────────────────────────
     const provider = getPaymentProvider(DEFAULT_PROVIDER);
+
     const { checkoutUrl, sessionId } = await provider.createCheckoutSession({
       lineItems,
       metadata,
-      successUrl: `${origin}/booking/success?session_id={CHECKOUT_SESSION_ID}`,
+      successUrl: `${origin}/booking/success?session_id={CHECKOUT_SESSION_ID}&amount=${total}`,
       cancelUrl: `${origin}/booking/cancel`,
     });
 

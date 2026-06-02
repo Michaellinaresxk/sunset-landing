@@ -29,32 +29,24 @@ export const viewport: Viewport = {
 
 // ── Metadata ──────────────────────────────────────────────────
 export const metadata: Metadata = {
-  // ▸ Core — price + transport in title for CTR
   title: {
     default:
       'Horseback Riding in Punta Cana — From $65 | Hotel Pickup Included — LuxPuntaCana',
     template: '%s | LuxPuntaCana',
   },
-
-  // ▸ Description — 155 chars, price + transport + keywords + CTA
   description:
     'Ride along Playa Macao at golden hour — 2-hour guided horseback tour from $65/person. Hotel pickup included, no experience needed. Book online today!',
-
-  // ▸ Keywords — expanded from 10 → 25+ based on competitor analysis
   keywords: [
-    // Primary (highest search volume)
     'horseback riding Punta Cana',
     'horseback riding Dominican Republic',
     'sunset horseback riding Punta Cana',
     'Playa Macao horseback riding',
     'Macao Beach horse tour',
-    // Secondary (high intent)
     'things to do in Punta Cana',
     'Punta Cana excursions',
     'Punta Cana tours',
     'Punta Cana activities',
     'beach horseback riding',
-    // Long-tail (conversion-focused)
     'horseback riding Punta Cana with hotel pickup',
     'horseback riding for beginners Punta Cana',
     'sunset beach ride Punta Cana',
@@ -65,24 +57,16 @@ export const metadata: Metadata = {
     'romantic things to do Punta Cana',
     'Punta Cana beach tour',
     'horse riding tour Dominican Republic',
-    // Spanish (untapped market)
     'cabalgata Punta Cana',
     'paseo a caballo Punta Cana',
     'excursiones Punta Cana',
-    // Brand
     'LuxPuntaCana horseback riding',
     'sunset tour Punta Cana',
   ],
-
-  // ▸ Canonical & alternates
   metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: '/',
-    // NOTE: Add languages back when /es page actually exists
-    // languages: { 'es-DO': '/es' },
   },
-
-  // ▸ Open Graph — price in title, action-oriented description
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -101,8 +85,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-
-  // ▸ Twitter Card — punchy, under 90 chars
   twitter: {
     card: 'summary_large_image',
     site: TWITTER_HANDLE,
@@ -112,8 +94,6 @@ export const metadata: Metadata = {
       'Playa Macao at golden hour, on horseback. Hotel pickup included. Book today.',
     images: [OG_IMAGE],
   },
-
-  // ▸ Favicon & app icons
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '32x32' },
@@ -122,8 +102,6 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
-
-  // ▸ Robots & indexing
   robots: {
     index: true,
     follow: true,
@@ -135,18 +113,12 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-
-  // ▸ Misc
   category: 'travel',
   creator: SITE_NAME,
   publisher: SITE_NAME,
 };
 
 // ── Structured Data ───────────────────────────────────────────
-// Single @graph array — avoids duplicate schemas and cross-references
-// entities via @id. One AggregateRating on LocalBusiness, referenced
-// by Product via brand.
-
 const BUSINESS_ID = `${SITE_URL}/#business`;
 const PRODUCT_ID = `${SITE_URL}/#product`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
@@ -154,7 +126,6 @@ const WEBSITE_ID = `${SITE_URL}/#website`;
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
-    // ─── 1. LocalBusiness ─────────────────────────────────────
     {
       '@type': 'LocalBusiness',
       '@id': BUSINESS_ID,
@@ -206,7 +177,7 @@ const structuredData = {
           'Sunday',
         ],
         opens: '09:00',
-        closes: '19:00', // FIX: extended from 18:00 — sunset rides depart at 16:30
+        closes: '19:00',
       },
       sameAs: [
         'https://www.instagram.com/luxpuntacana',
@@ -214,10 +185,6 @@ const structuredData = {
         'https://www.tiktok.com/@luxpuntacana',
       ],
     },
-
-    // ─── 2. Product ───────────────────────────────────────────
-    // Now includes aggregateRating directly — required for Google
-    // to show stars in search snippets on the Product entity.
     {
       '@type': 'Product',
       '@id': PRODUCT_ID,
@@ -226,10 +193,7 @@ const structuredData = {
         'A 2-hour guided horseback ride along Playa Macao beach and a scenic river trail at golden hour. Includes round-trip hotel pickup from Bávaro, Punta Cana, Cap Cana, and Uvero Alto. No experience required. Available every day.',
       image: OG_IMAGE,
       url: SITE_URL,
-      brand: {
-        '@type': 'Brand',
-        name: SITE_NAME,
-      },
+      brand: { '@type': 'Brand', name: SITE_NAME },
       aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: '4.8',
@@ -284,10 +248,6 @@ const structuredData = {
         },
       ],
     },
-
-    // ─── 3. TouristTrip (NEW) ─────────────────────────────────
-    // Specific schema for tour/activity — helps Google categorize
-    // this as a bookable tourist experience.
     {
       '@type': 'TouristTrip',
       name: 'Sunset Horseback Riding at Playa Macao — Punta Cana',
@@ -329,8 +289,6 @@ const structuredData = {
         ],
       },
     },
-
-    // ─── 4. WebSite ───────────────────────────────────────────
     {
       '@type': 'WebSite',
       '@id': WEBSITE_ID,
@@ -341,9 +299,6 @@ const structuredData = {
       publisher: { '@id': BUSINESS_ID },
       inLanguage: 'en-US',
     },
-
-    // ─── 5. BreadcrumbList ────────────────────────────────────
-    // FIX: Removed /horseback-riding (doesn't exist — single-page app)
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -361,10 +316,6 @@ const structuredData = {
         },
       ],
     },
-
-    // ─── 6. FAQPage ───────────────────────────────────────────
-    // CRITICAL: These answers MUST match the visible FAQSection component.
-    // Google penalizes FAQ schema that isn't visible to users.
     {
       '@type': 'FAQPage',
       mainEntity: [
@@ -449,7 +400,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        {/* JSON-LD structured data — single @graph */}
         <script
           type='application/ld+json'
           dangerouslySetInnerHTML={{
@@ -461,15 +411,9 @@ export default function RootLayout({
       <body className='min-h-full flex flex-col'>
         {children}
 
-        {/* ── Analytics & Tracking ─────────────────────────────
-            Next.js 16: Script components must be siblings to
-            <head> and <body>, placed here inside <body> with
-            afterInteractive strategy.
-        ──────────────────────────────────────────────────────── */}
-
-        {/* Google Analytics */}
+        {/* Google Analytics + Google Ads */}
         <Script
-          src='https://www.googletagmanager.com/gtag/js?id=G-T3N16HEN6X'
+          src='https://www.googletagmanager.com/gtag/js?id=G-LD9XRNSCB0'
           strategy='afterInteractive'
         />
         <Script id='google-analytics' strategy='afterInteractive'>
@@ -477,11 +421,12 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-T3N16HEN6X');
+            gtag('config', 'G-LD9XRNSCB0');
+            gtag('config', 'AW-17581132846');
           `}
         </Script>
 
-        {/* Hotjar — via Script tag (not SDK import in Server Component) */}
+        {/* Hotjar */}
         <Script id='hotjar' strategy='afterInteractive'>
           {`
             (function(h,o,t,j,a,r){
