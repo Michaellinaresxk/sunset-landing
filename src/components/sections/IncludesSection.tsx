@@ -12,7 +12,7 @@ const INCLUDES = [
   { label: 'Playa Macao beach ride', icon: MapPin },
   { label: 'Scenic river & nature trail', icon: Waves },
   { label: 'Dominican coffee & mamajuana tasting', icon: Coffee },
-  { label: 'Professional bilingual guide', icon: Shield },
+  { label: 'Professional guide', icon: Shield },
   { label: 'Safety equipment & instruction', icon: ShieldCheck },
 ];
 
