@@ -65,9 +65,7 @@ export const metadata: Metadata = {
     'sunset tour Punta Cana',
   ],
   metadataBase: new URL(SITE_URL),
-  alternates: {
-    canonical: '/',
-  },
+
   openGraph: {
     type: 'website',
     locale: 'en_US',
