@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: 'https://sunset.luxpuntacana.com/booking',
     images: [
       {
-        url: 'https://sunset.luxpuntacana.com/og-image.webp',
+        url: 'https://res.cloudinary.com/ddg92xar5/image/upload/v1755946814/Imagen_de_WhatsApp_2024-06-03_a_las_15.47.17_f9b60a74_l7xtfu.jpg',
         width: 1200,
         height: 630,
         alt: 'Book horseback riding Punta Cana — Playa Macao at sunset',
