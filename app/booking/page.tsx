@@ -11,16 +11,16 @@ export const metadata: Metadata = {
   },
   robots: { index: false, follow: false },
   openGraph: {
-    title: 'Book Your Horseback Riding — Punta Cana from $65',
+    title: 'Horseback Riding in Punta Cana — From $65 | Hotel Pickup Included',
     description:
-      'Hotel pickup included · Free cancellation · Instant confirmation',
-    url: 'https://sunset.luxpuntacana.com/booking',
+      'Sunset horseback ride along Playa Macao — from $65/person, hotel pickup included. Book your 2-hour guided beach tour today!',
+    url: 'https://sunset.luxpuntacana.com',
     images: [
       {
         url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: 'Book horseback riding Punta Cana — Playa Macao at sunset',
+        alt: 'Horseback riding along Playa Macao beach at sunset in Punta Cana',
         type: 'image/jpeg',
       },
     ],
