@@ -2,7 +2,8 @@
 export const WHATSAPP_CONFIG = {
   phoneNumber: '18298123753',
   messages: {
-    initial: "Hi! I'm interested in booking a horseback riding experience 🐎",
+    initial:
+      'Hi Lux Punta Cana! I want to know more about the Horseback Riding 🐎',
   },
 } as const;
 
