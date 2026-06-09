@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { WHATSAPP_CONFIG, buildWhatsAppURL } from '../../whatsapp.config';
+import WhatsAppConfirmModal from './WhatsAppConfirmModal';
 
 const WHATSAPP_URL = buildWhatsAppURL(
   WHATSAPP_CONFIG.phoneNumber,
@@ -19,23 +21,31 @@ const WhatsAppIcon = () => (
 );
 
 export default function FloatingWhatsAppButton() {
-  return (
-    <a
-      href={WHATSAPP_URL}
-      target='_blank'
-      rel='noopener noreferrer'
-      className='fixed bottom-6 right-6 z-40 group'
-      aria-label='Chat on WhatsApp'
-    >
-      <div className='relative w-14 h-14'>
-        {/* Ping animation */}
-        <span className='absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30' />
+  const [showModal, setShowModal] = useState(false);
 
-        {/* Button */}
-        <div className='relative w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-2xl shadow-green-500/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-green-500/60'>
-          <WhatsAppIcon />
+  return (
+    <>
+      <button
+        onClick={() => setShowModal(true)}
+        className='fixed bottom-6 right-6 z-40 group'
+        aria-label='Chat on WhatsApp'
+      >
+        <div className='relative w-14 h-14'>
+          {/* Ping animation */}
+          <span className='absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-30' />
+          {/* Button */}
+          <div className='relative w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-2xl shadow-green-500/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-green-500/60'>
+            <WhatsAppIcon />
+          </div>
         </div>
-      </div>
-    </a>
+      </button>
+
+      {showModal && (
+        <WhatsAppConfirmModal
+          url={WHATSAPP_URL}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+    </>
   );
 }

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   description:
     'Reserve your sunset horseback ride at Playa Macao. From $65/person, hotel pickup included. Choose your date, pick your time, instant confirmation.',
   robots: {
-    index: false, // no indexar /booking — es una página de transacción
+    index: false,
     follow: false,
   },
   openGraph: {
